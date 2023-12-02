@@ -1,0 +1,4 @@
+# Ignore target/ and log/ directories
+target/
+log/
+

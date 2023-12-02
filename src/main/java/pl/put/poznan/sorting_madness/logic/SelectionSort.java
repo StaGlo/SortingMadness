@@ -1,5 +1,4 @@
-package pl.put.poznan.transformer.logic;
-import pl.put.poznan.transformer.logic.SortingStrategy;
+package pl.put.poznan.sorting_madness.logic;
 
 import java.util.Comparator;
 import java.util.List;
