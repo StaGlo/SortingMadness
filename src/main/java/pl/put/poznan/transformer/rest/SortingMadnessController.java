@@ -2,9 +2,13 @@ package pl.put.poznan.transformer.rest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
+import pl.put.poznan.transformer.logic.BubbleSort;
+import pl.put.poznan.transformer.logic.SelectionSort;
 import pl.put.poznan.transformer.logic.SortingMadness;
+import pl.put.poznan.transformer.logic.SortingStrategy;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -28,15 +32,22 @@ public class SortingMadnessController {
 //    }
 
     @RequestMapping(method = RequestMethod.POST, produces = "application/json")
-    public List<Integer> post(@RequestParam(defaultValue = "ascending") String order, @RequestBody List<Integer> dataList) {
+    public List<Integer> post(@RequestParam(defaultValue = "bubble_sort") String algorithm, @RequestBody List<Integer> dataList) {
 
         // log the parameters
         logger.debug(dataList.toString());
-        logger.debug(order);
+        logger.debug(algorithm);
+
+        SortingMadness<Integer> selectionSortSorter = new SortingMadness<>();
+        if("bubble_sort".equals(algorithm)){
+            selectionSortSorter.setStrategy(new BubbleSort<Integer>());
+        }
+        if("selection_sort".equals(algorithm)){
+            selectionSortSorter.setStrategy(new SelectionSort<Integer>());
+        }
 
         // Perform any other processing as needed
-        SortingMadness sortingMadness = new SortingMadness(order);
-        return sortingMadness.quickSort(dataList);
+        return selectionSortSorter.performSort(dataList, Comparator.naturalOrder());
     }
 
 

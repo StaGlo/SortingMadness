@@ -2,23 +2,29 @@ package pl.put.poznan.transformer.logic;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Comparator;
 
 /**
  * This is just an example to show that the logic should be outside the REST service.
  */
-public class SortingMadness {
+public class SortingMadness<T extends Comparable<T>> {
+    private SortingStrategy<T> sortingStrategy;
 
-    private final String order;
-
-    public SortingMadness(String order){
-        this.order = order;
+    public SortingMadness(){
+        this.sortingStrategy=new SelectionSort<>();
+    }
+    public SortingMadness(SortingStrategy<T> sortingStrategy){
+        this.sortingStrategy = sortingStrategy;
+    }
+    public List<T> performSort(List<T> data, Comparator<T> customComparator) {
+        return sortingStrategy.sort(data,customComparator);
     }
     public List<Integer> quickSort(List<Integer> dataList){
         Collections.sort(dataList);
         return dataList;
     }
-    public String transform(String text){
-        // of course, normally it would do something based on the transforms
-        return text.toUpperCase();
+
+    public void setStrategy(SortingStrategy<T> sortingStrategy) {
+        this.sortingStrategy = sortingStrategy;
     }
 }
