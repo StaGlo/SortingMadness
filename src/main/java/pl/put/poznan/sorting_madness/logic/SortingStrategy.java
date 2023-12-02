@@ -1,4 +1,4 @@
-package pl.put.poznan.transformer.logic;
+package pl.put.poznan.sorting_madness.logic;
 import java.util.Comparator;
 import java.util.List;
 

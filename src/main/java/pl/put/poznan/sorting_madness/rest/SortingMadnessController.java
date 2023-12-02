@@ -1,13 +1,11 @@
-package pl.put.poznan.transformer.rest;
+package pl.put.poznan.sorting_madness.rest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
-import pl.put.poznan.transformer.logic.BubbleSort;
-import pl.put.poznan.transformer.logic.SelectionSort;
-import pl.put.poznan.transformer.logic.SortingMadness;
-import pl.put.poznan.transformer.logic.SortingStrategy;
+import pl.put.poznan.sorting_madness.logic.BubbleSort;
+import pl.put.poznan.sorting_madness.logic.SelectionSort;
+import pl.put.poznan.sorting_madness.logic.SortingMadness;
 
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
