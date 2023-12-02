@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.put.poznan.sorting_madness.logic.BubbleSort;
 import pl.put.poznan.sorting_madness.logic.SelectionSort;
 import pl.put.poznan.sorting_madness.logic.SortingMadness;
+import pl.put.poznan.sorting_madness.logic.SortingTimeDecorator;
 
 import java.util.Comparator;
 import java.util.List;
@@ -36,16 +37,16 @@ public class SortingMadnessController {
         logger.debug(dataList.toString());
         logger.debug(algorithm);
 
-        SortingMadness<Integer> selectionSortSorter = new SortingMadness<>();
+        SortingMadness<Integer> sortingMadness = new SortingMadness<>();
         if("bubble_sort".equals(algorithm)){
-            selectionSortSorter.setStrategy(new BubbleSort<Integer>());
+            sortingMadness.setStrategy(new SortingTimeDecorator<Integer>(new BubbleSort<>()));
         }
         if("selection_sort".equals(algorithm)){
-            selectionSortSorter.setStrategy(new SelectionSort<Integer>());
+            sortingMadness.setStrategy(new SortingTimeDecorator<Integer>(new SelectionSort<>()));
         }
 
         // Perform any other processing as needed
-        return selectionSortSorter.performSort(dataList, Comparator.naturalOrder());
+        return sortingMadness.performSort(dataList, Comparator.naturalOrder());
     }
 
 
