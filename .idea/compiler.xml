@@ -9,10 +9,16 @@
         <outputRelativeToContentRoot value="true" />
         <module name="sorting-madness" />
       </profile>
+      <profile name="Annotation profile for sorting-madness" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
+        </processorPath>
+        <module name="ioprojectarchitecture" />
+      </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="ioprojectarchitecture" target="11" />
-    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
