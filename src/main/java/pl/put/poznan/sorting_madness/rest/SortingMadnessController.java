@@ -14,16 +14,27 @@ import java.util.List;
 @RequestMapping
 public class SortingMadnessController {
 
-    private SortingMadnessService sortingMadnessService;
+    private SortingMadnessService<Float> floatSortingMadnessService;
+    private SortingMadnessService<String> stringSortingMadnessService;
 
-    @GetMapping(produces = "application/json")
+    @GetMapping("/floats")
     public List<Float> sortNumbers(
             @RequestParam(defaultValue = "BUBBLE_SORT") String algorithm,
             @RequestBody List<Float> data) throws WrongAlgorithmException {
         log.debug(data.toString());
         log.debug(algorithm);
 
-        return sortingMadnessService.sortNumbers(algorithm, data);
+        return floatSortingMadnessService.sortNumbers(algorithm, data);
+    }
+
+    @GetMapping("/strings")
+    public List<String> sortStrings(
+            @RequestParam(defaultValue = "BUBBLE_SORT") String algorithm,
+            @RequestBody List<String> data) throws WrongAlgorithmException {
+        log.debug(data.toString());
+        log.debug(algorithm);
+
+        return stringSortingMadnessService.sortNumbers(algorithm, data);
     }
 }
 
