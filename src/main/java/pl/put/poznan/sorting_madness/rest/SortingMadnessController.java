@@ -3,7 +3,7 @@ package pl.put.poznan.sorting_madness.rest;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import pl.put.poznan.sorting_madness.exception.WrongAlgorithmException;
+import pl.put.poznan.sorting_madness.exception.WrongParameterException;
 
 import java.util.List;
 
@@ -14,27 +14,17 @@ import java.util.List;
 @RequestMapping
 public class SortingMadnessController {
 
-    private SortingMadnessService<Float> floatSortingMadnessService;
-    private SortingMadnessService<String> stringSortingMadnessService;
+    private SortingMadnessService sortingMadnessService;
 
-    @GetMapping("/floats")
-    public List<Float> sortNumbers(
+    @GetMapping("/values")
+    public List<Comparable<?>> sortValues(
             @RequestParam(defaultValue = "BUBBLE_SORT") String algorithm,
-            @RequestBody List<Float> data) throws WrongAlgorithmException {
+            @RequestParam(defaultValue = "FLOATS") String inputType,
+            @RequestBody List<Object> data) throws WrongParameterException {
         log.debug(data.toString());
         log.debug(algorithm);
 
-        return floatSortingMadnessService.sortNumbers(algorithm, data);
-    }
-
-    @GetMapping("/strings")
-    public List<String> sortStrings(
-            @RequestParam(defaultValue = "BUBBLE_SORT") String algorithm,
-            @RequestBody List<String> data) throws WrongAlgorithmException {
-        log.debug(data.toString());
-        log.debug(algorithm);
-
-        return stringSortingMadnessService.sortNumbers(algorithm, data);
+        return sortingMadnessService.sortValues(algorithm, inputType, data);
     }
 }
 

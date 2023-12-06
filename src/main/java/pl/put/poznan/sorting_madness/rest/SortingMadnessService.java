@@ -4,82 +4,47 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import pl.put.poznan.sorting_madness.exception.WrongAlgorithmException;
+import pl.put.poznan.sorting_madness.exception.WrongParameterException;
 import pl.put.poznan.sorting_madness.logic.*;
+import pl.put.poznan.sorting_madness.util.NameValidator;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class SortingMadnessService<T extends Comparable<T>> {
+public class SortingMadnessService {
 
     @NonNull
-    private SortingMadness<T> sortingMadness;
+    private SortingMadness sortingMadness;
 
-    public List<T> sortNumbers(String algorithmAsString, List<T> data) throws WrongAlgorithmException {
-        AlgorithmName algorithmName;
+    public List<Comparable<?>> sortValues(String algorithmAsString, String inputTypeAsString, List<Object> data)
+            throws WrongParameterException {
+        var algorithmName = NameValidator.validateAlgorithmName(algorithmAsString);
+        var inputType = NameValidator.validateInputType(inputTypeAsString);
 
-        try {
-            algorithmName = AlgorithmName.valueOf(algorithmAsString);
-        } catch (Exception e) {
-            var errorMessage = String.format("Wrong algorithm name: %s", algorithmAsString);
-            log.error(errorMessage);
-            throw new WrongAlgorithmException(errorMessage);
+        List<Comparable<?>> convertedData = null;
+        switch (inputType) {
+            case DOUBLES:
+                convertedData = data.stream().map(o -> (Double) o).collect(Collectors.toList());
+                break;
+            case STRINGS:
+                convertedData = data.stream().map(o -> (String) o).collect(Collectors.toList());
+                break;
+            case INTEGERS:
+                convertedData = data.stream().map(o -> (Integer) o).collect(Collectors.toList());
+                break;
         }
 
         if (AlgorithmName.BUBBLE_SORT.equals(algorithmName)) {
-            sortingMadness.setStrategy(new SortingTimeDecorator<T>(new BubbleSort<>()));
+            sortingMadness.setStrategy(new SortingTimeDecorator(new BubbleSort()));
         }
         if (AlgorithmName.SELECTION_SORT.equals(algorithmName)) {
-            sortingMadness.setStrategy(new SortingTimeDecorator<T>(new SelectionSort<>()));
+            sortingMadness.setStrategy(new SortingTimeDecorator(new SelectionSort()));
         }
 
-        return sortingMadness.performSort(data, Comparator.naturalOrder());
+        return sortingMadness.performSort(convertedData, (Comparator<Comparable<?>>) Comparator.naturalOrder());
     }
-
-    /*public List<Float> sortNumbers(String algorithmAsString, List<Float> data) throws WrongAlgorithmException {
-        AlgorithmName algorithmName;
-
-        try {
-            algorithmName = AlgorithmName.valueOf(algorithmAsString);
-        } catch (Exception e) {
-            var errorMessage = String.format("Wrong algorithm name: %s", algorithmAsString);
-            log.error(errorMessage);
-            throw new WrongAlgorithmException(errorMessage);
-        }
-
-        if (AlgorithmName.BUBBLE_SORT.equals(algorithmName)) {
-            floatSortingMadness.setStrategy(new SortingTimeDecorator<Float>(new BubbleSort<>()));
-        }
-        if (AlgorithmName.SELECTION_SORT.equals(algorithmName)) {
-            floatSortingMadness.setStrategy(new SortingTimeDecorator<Float>(new SelectionSort<>()));
-        }
-
-        return floatSortingMadness.performSort(data, Comparator.naturalOrder());
-    }
-
-    public List<String> sortStrings(String algorithmAsString, List<String> data) throws WrongAlgorithmException {
-        AlgorithmName algorithmName;
-
-        try {
-            algorithmName = AlgorithmName.valueOf(algorithmAsString);
-        } catch (Exception e) {
-            var errorMessage = String.format("Wrong algorithm name: %s", algorithmAsString);
-            log.error(errorMessage);
-            throw new WrongAlgorithmException(errorMessage);
-        }
-
-        if (AlgorithmName.BUBBLE_SORT.equals(algorithmName)) {
-            floatSortingMadness.setStrategy(new SortingTimeDecorator<Float>(new BubbleSort<>()));
-        }
-        if (AlgorithmName.SELECTION_SORT.equals(algorithmName)) {
-            floatSortingMadness.setStrategy(new SortingTimeDecorator<Float>(new SelectionSort<>()));
-        }
-
-        return stringSortingMadness.performSort(data, Comparator.naturalOrder());
-    }*/
-
-
 }

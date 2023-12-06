@@ -7,24 +7,24 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class WrongAlgorithmException extends Exception {
+public class WrongParameterException extends Exception {
 
     private int errorCode;
     private String errorMessage;
 
-    public WrongAlgorithmException(Throwable cause) {
+    public WrongParameterException(Throwable cause) {
         super(cause);
     }
 
-    public WrongAlgorithmException(String message, Throwable cause) {
+    public WrongParameterException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public WrongAlgorithmException(String message) {
+    public WrongParameterException(String message) {
         super(message);
     }
 
-    public WrongAlgorithmException(Throwable cause, int errorCode, String errorMessage) {
+    public WrongParameterException(Throwable cause, int errorCode, String errorMessage) {
         super(cause);
         this.errorCode = errorCode;
         this.errorMessage = errorMessage;

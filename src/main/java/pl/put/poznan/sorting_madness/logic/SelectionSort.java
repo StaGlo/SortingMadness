@@ -4,9 +4,9 @@ import java.util.Comparator;
 import java.util.List;
 
 // Concrete strategy: Selection Sort
-public class SelectionSort <T extends Comparable<T>> implements SortingStrategy<T> {
+public class SelectionSort implements SortingStrategy {
     @Override
-    public List<T> sort(List<T> data, Comparator<T> customComparator) {
+    public List<Comparable<?>> sort(List<Comparable<?>> data, Comparator<Comparable<?>> customComparator) {
         int n = data.size();
 
         for (int i = 0; i < n - 1; i++) {
@@ -17,15 +17,15 @@ public class SelectionSort <T extends Comparable<T>> implements SortingStrategy<
                     if (customComparator.compare(data.get(j), data.get(minIndex)) < 0) {
                         minIndex = j;
                     }
-                } else {
+                } /*else {
                     if (data.get(j).compareTo(data.get(minIndex)) < 0) {
                         minIndex = j;
                     }
-                }
+                }*/
             }
 
             // Swap the found minimum element with the element at i
-            T temp = data.get(minIndex);
+            Comparable<?> temp = data.get(minIndex);
             data.set(minIndex, data.get(i));
             data.set(i, temp);
         }
