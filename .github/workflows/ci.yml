@@ -25,3 +25,8 @@ jobs:
           path: target/*.jar
       - name: Prepare doc
         run: mvn site
+      - name: Upload doc
+        uses: actions/upload-artifact@v3
+        with:
+          name: sorting-madness-doc
+          path: target/*
