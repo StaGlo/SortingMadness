@@ -1,14 +1,12 @@
 package pl.put.poznan.sorting_madness.logic;
 
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 // Concrete strategy: Selection Sort
 public class SelectionSort implements SortingStrategy {
     @Override
-    public Map<String,Object> sort(List<Comparable<?>> data, Comparator<Comparable<?>> customComparator) {
+    public SortingResponse sort(List<Comparable<?>> data, Comparator<Comparable<?>> customComparator) {
         int n = data.size();
 
         for (int i = 0; i < n - 1; i++) {
@@ -31,8 +29,6 @@ public class SelectionSort implements SortingStrategy {
             data.set(minIndex, data.get(i));
             data.set(i, temp);
         }
-        Map<String, Object> resultMap = new HashMap<>();
-        resultMap.put("list", data);
-        return resultMap;
+        return SortingResponse.builder().sortedList(data).build();
     }
 }

@@ -6,7 +6,6 @@ import pl.put.poznan.sorting_madness.rest.SortingMadnessController;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
 public class SortingTimeDecorator implements SortingStrategy {
     private final SortingStrategy originalStrategy;
@@ -17,16 +16,16 @@ public class SortingTimeDecorator implements SortingStrategy {
     }
 
     @Override
-    public Map<String, Object> sort(List<Comparable<?>> data, Comparator<Comparable<?>> customComparator) {
+    public SortingResponse sort(List<Comparable<?>> data, Comparator<Comparable<?>> customComparator) {
         long startTime = System.nanoTime();
 
-        Map<String,Object> resultMap = originalStrategy.sort(data, customComparator);
+        var sortingResult = originalStrategy.sort(data, customComparator);
 
         long endTime = System.nanoTime();
         long duration = endTime - startTime;
 
         logger.info("Sorting took " + duration + " nanoseconds.");
-        resultMap.put("time",duration);
-        return resultMap;
+        sortingResult.setTime(duration);
+        return sortingResult;
     }
 }
