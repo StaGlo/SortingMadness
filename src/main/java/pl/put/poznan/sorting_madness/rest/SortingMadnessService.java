@@ -50,7 +50,7 @@ public class SortingMadnessService {
             sortingMadness.setStrategy(new SortingTimeDecorator(new SelectionSort()));
             Map<String, Object> localMap = sortingMadness.performSort(convertedData, (Comparator<Comparable<?>>) Comparator.naturalOrder());
             resultMap.put("sorted_list",localMap.get("list"));
-            resultMap.put("bubble_sort_time",localMap.get("time"));
+            resultMap.put("selection_sort_time",localMap.get("time"));
         }
         //TODO error exception
         resultMap.remove("time");
