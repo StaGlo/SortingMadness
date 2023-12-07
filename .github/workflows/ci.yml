@@ -24,5 +24,4 @@ jobs:
           name: sorting-madness-jar-package
           path: target/*.jar
       - name: Prepare doc
-        uses: actions/upload-artifact@v3
         run: mvn site
