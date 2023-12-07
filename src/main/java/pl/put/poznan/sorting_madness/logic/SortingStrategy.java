@@ -2,8 +2,9 @@ package pl.put.poznan.sorting_madness.logic;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 // Strategy interface
 public interface SortingStrategy {
-    List<Comparable<?>> sort(List<Comparable<?>> data, Comparator<Comparable<?>> customComparator);
+    Map<String, Object> sort(List<Comparable<?>> data, Comparator<Comparable<?>> customComparator);
 }
