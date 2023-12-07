@@ -1,10 +1,12 @@
 package pl.put.poznan.sorting_madness.logic;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BubbleSort implements SortingStrategy {
     @Override
-    public List<Comparable<?>> sort(List<Comparable<?>> data, java.util.Comparator<Comparable<?>> customComparator) {
+    public Map<String,Object> sort(List<Comparable<?>> data, java.util.Comparator<Comparable<?>> customComparator) {
         int n = data.size();
 
         for (int i = 0; i < n - 1; i++) {
@@ -27,7 +29,8 @@ public class BubbleSort implements SortingStrategy {
                 }*/
             }
         }
-
-        return data;
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("list", data);
+        return resultMap;
     }
 }

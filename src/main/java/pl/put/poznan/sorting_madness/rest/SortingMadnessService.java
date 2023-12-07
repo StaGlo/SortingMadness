@@ -9,7 +9,9 @@ import pl.put.poznan.sorting_madness.logic.*;
 import pl.put.poznan.sorting_madness.util.NameValidator;
 
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,7 +22,7 @@ public class SortingMadnessService {
     @NonNull
     private SortingMadness sortingMadness;
 
-    public List<Comparable<?>> sortValues(String algorithmAsString, String inputTypeAsString, List<Object> data)
+    public Map<String, Object> sortValues(String algorithmAsString, String inputTypeAsString, List<Object> data)
             throws WrongParameterException {
         var algorithmName = NameValidator.validateAlgorithmName(algorithmAsString);
         var inputType = NameValidator.validateInputType(inputTypeAsString);
@@ -37,14 +39,21 @@ public class SortingMadnessService {
                 convertedData = data.stream().map(o -> (Integer) o).collect(Collectors.toList());
                 break;
         }
-
+        Map<String, Object> resultMap = new HashMap<>();
         if (AlgorithmName.BUBBLE_SORT.equals(algorithmName)) {
             sortingMadness.setStrategy(new SortingTimeDecorator(new BubbleSort()));
+            Map<String, Object> localMap = sortingMadness.performSort(convertedData, (Comparator<Comparable<?>>) Comparator.naturalOrder());
+            resultMap.put("sorted_list",localMap.get("list"));
+            resultMap.put("bubble_sort_time",localMap.get("time"));
         }
         if (AlgorithmName.SELECTION_SORT.equals(algorithmName)) {
             sortingMadness.setStrategy(new SortingTimeDecorator(new SelectionSort()));
+            Map<String, Object> localMap = sortingMadness.performSort(convertedData, (Comparator<Comparable<?>>) Comparator.naturalOrder());
+            resultMap.put("sorted_list",localMap.get("list"));
+            resultMap.put("bubble_sort_time",localMap.get("time"));
         }
-
-        return sortingMadness.performSort(convertedData, (Comparator<Comparable<?>>) Comparator.naturalOrder());
+        //TODO error exception
+        resultMap.remove("time");
+        return resultMap;
     }
 }
