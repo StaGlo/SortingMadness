@@ -10,7 +10,6 @@ import pl.put.poznan.sorting_madness.util.NameValidator;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,21 +40,15 @@ public class SortingMadnessService {
 
         if (AlgorithmName.BUBBLE_SORT.equals(algorithmName)) {
             sortingMadness.setStrategy(new SortingTimeDecorator(new BubbleSort()));
-            Map<String, Object> localMap = sortingMadness.performSort(convertedData, (Comparator<Comparable<?>>) Comparator.naturalOrder());
-            return SortingResponse.builder()
-                    .sortedList((List<Object>) localMap.get("list"))
-                    .algorithmName(AlgorithmName.BUBBLE_SORT)
-                    .time((Long) localMap.get("time"))
-                    .build();
+            var sortingResult = sortingMadness.performSort(convertedData, (Comparator<Comparable<?>>) Comparator.naturalOrder());
+            sortingResult.setAlgorithmName(AlgorithmName.BUBBLE_SORT);
+            return sortingResult;
         }
         if (AlgorithmName.SELECTION_SORT.equals(algorithmName)) {
             sortingMadness.setStrategy(new SortingTimeDecorator(new SelectionSort()));
-            Map<String, Object> localMap = sortingMadness.performSort(convertedData, (Comparator<Comparable<?>>) Comparator.naturalOrder());
-            return SortingResponse.builder()
-                    .sortedList((List<Object>) localMap.get("list"))
-                    .algorithmName(AlgorithmName.SELECTION_SORT)
-                    .time((Long) localMap.get("time"))
-                    .build();
+            var sortingResult = sortingMadness.performSort(convertedData, (Comparator<Comparable<?>>) Comparator.naturalOrder());
+            sortingResult.setAlgorithmName(AlgorithmName.SELECTION_SORT);
+            return sortingResult;
         }
         //TODO error exception
         return null;

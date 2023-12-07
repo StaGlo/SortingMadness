@@ -12,7 +12,7 @@ import java.util.List;
 @Setter
 @Builder
 public class SortingResponse {
-    List<Object> sortedList;
+    List<Comparable<?>> sortedList;
     AlgorithmName algorithmName;
     Long time;
 }
