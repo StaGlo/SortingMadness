@@ -10,6 +10,7 @@ import pl.put.poznan.sorting_madness.util.NameValidator;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,17 +41,39 @@ public class SortingMadnessService {
 
         if (AlgorithmName.BUBBLE_SORT.equals(algorithmName)) {
             sortingMadness.setStrategy(new SortingTimeDecorator(new BubbleSort()));
-            var sortingResult = sortingMadness.performSort(convertedData, (Comparator<Comparable<?>>) Comparator.naturalOrder());
+            var sortingResult = sortingMadness.performSortValues(convertedData, (Comparator<Comparable<?>>) Comparator.naturalOrder());
             sortingResult.setAlgorithmName(AlgorithmName.BUBBLE_SORT);
             return sortingResult;
         }
         if (AlgorithmName.SELECTION_SORT.equals(algorithmName)) {
             sortingMadness.setStrategy(new SortingTimeDecorator(new SelectionSort()));
-            var sortingResult = sortingMadness.performSort(convertedData, (Comparator<Comparable<?>>) Comparator.naturalOrder());
+            var sortingResult = sortingMadness.performSortValues(convertedData, (Comparator<Comparable<?>>) Comparator.naturalOrder());
             sortingResult.setAlgorithmName(AlgorithmName.SELECTION_SORT);
             return sortingResult;
         }
         //TODO error exception
+        return null;
+    }
+
+    public SortingResponse sortObjects(String algorithmAsString, String inputTypeAsString,
+                                       List<Map<String, Object>> data, String field) throws WrongParameterException {
+        var algorithmName = NameValidator.validateAlgorithmName(algorithmAsString);
+        var inputType = NameValidator.validateInputType(inputTypeAsString);
+        // TODO Field does not exist exception
+
+        if (AlgorithmName.BUBBLE_SORT.equals(algorithmName)) {
+            sortingMadness.setStrategy(new SortingTimeDecorator(new BubbleSort()));
+            var sortingResult = sortingMadness.performSortObjects(data, (Comparator<Comparable<?>>) Comparator.naturalOrder(), field);
+            sortingResult.setAlgorithmName(AlgorithmName.BUBBLE_SORT);
+            return sortingResult;
+        }
+        if (AlgorithmName.SELECTION_SORT.equals(algorithmName)) {
+            sortingMadness.setStrategy(new SortingTimeDecorator(new SelectionSort()));
+            var sortingResult = sortingMadness.performSortObjects(data, (Comparator<Comparable<?>>) Comparator.naturalOrder(), field);
+            sortingResult.setAlgorithmName(AlgorithmName.SELECTION_SORT);
+            return sortingResult;
+        }
+
         return null;
     }
 }

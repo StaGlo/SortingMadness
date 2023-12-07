@@ -7,6 +7,7 @@ import pl.put.poznan.sorting_madness.exception.WrongParameterException;
 import pl.put.poznan.sorting_madness.logic.SortingResponse;
 
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -26,6 +27,18 @@ public class SortingMadnessController {
         log.debug(algorithm);
 
         return sortingMadnessService.sortValues(algorithm, inputType, data);
+    }
+
+    @GetMapping("/objects")
+    public SortingResponse sortObjects(
+            @RequestParam(defaultValue = "BUBBLE_SORT") String algorithm,
+            @RequestParam(defaultValue = "FLOATS") String inputType,
+            @RequestParam String field,
+            @RequestBody List<Map<String, Object>> data) throws WrongParameterException {
+        log.debug(data.toString());
+        log.debug(algorithm);
+
+        return sortingMadnessService.sortObjects(algorithm, inputType, data, field);
     }
 }
 
