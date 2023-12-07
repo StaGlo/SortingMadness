@@ -7,20 +7,19 @@ import pl.put.poznan.sorting_madness.rest.SortingMadnessController;
 import java.util.Comparator;
 import java.util.List;
 
-public class SortingTimeDecorator<T extends Comparable<T>> implements SortingStrategy<T> {
-    private final SortingStrategy<T> originalStrategy;
+public class SortingTimeDecorator implements SortingStrategy {
+    private final SortingStrategy originalStrategy;
     private static final Logger logger = LoggerFactory.getLogger(SortingMadnessController.class);
 
-    public SortingTimeDecorator(SortingStrategy<T> originalStrategy) {
+    public SortingTimeDecorator(SortingStrategy originalStrategy) {
         this.originalStrategy = originalStrategy;
     }
 
     @Override
-    public List<T> sort(List<T> data, Comparator<T> customComparator) {
+    public List<Comparable<?>> sort(List<Comparable<?>> data, Comparator<Comparable<?>> customComparator) {
         long startTime = System.nanoTime();
 
-        // Delegate sorting to the original strategy
-        List<T> sortedData = originalStrategy.sort(data, customComparator);
+        var sortedData = originalStrategy.sort(data, customComparator);
 
         long endTime = System.nanoTime();
         long duration = endTime - startTime;

@@ -3,45 +3,48 @@ package pl.put.poznan.sorting_madness.rest;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import pl.put.poznan.sorting_madness.exception.WrongAlgorithmException;
+import pl.put.poznan.sorting_madness.exception.WrongParameterException;
 import pl.put.poznan.sorting_madness.logic.*;
+import pl.put.poznan.sorting_madness.util.NameValidator;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class SortingMadnessService {
 
-    @Qualifier("floatSortingMadness")
     @NonNull
-    private final SortingMadness<Float> floatSortingMadness;
+    private SortingMadness sortingMadness;
 
-    @Qualifier("stringSortingMadness")
-    @NonNull
-    private SortingMadness<String> stringSortingMadness;
+    public List<Comparable<?>> sortValues(String algorithmAsString, String inputTypeAsString, List<Object> data)
+            throws WrongParameterException {
+        var algorithmName = NameValidator.validateAlgorithmName(algorithmAsString);
+        var inputType = NameValidator.validateInputType(inputTypeAsString);
 
-    public List<Float> sortNumbers(String algorithmAsString, List<Float> data) throws WrongAlgorithmException {
-        AlgorithmName algorithmName;
-
-        try {
-            algorithmName = AlgorithmName.valueOf(algorithmAsString);
-        } catch (Exception e) {
-            var errorMessage = String.format("Wrong algorithm name: %s", algorithmAsString);
-            log.error(errorMessage);
-            throw new WrongAlgorithmException(errorMessage);
+        List<Comparable<?>> convertedData = null;
+        switch (inputType) {
+            case DOUBLES:
+                convertedData = data.stream().map(o -> (Double) o).collect(Collectors.toList());
+                break;
+            case STRINGS:
+                convertedData = data.stream().map(o -> (String) o).collect(Collectors.toList());
+                break;
+            case INTEGERS:
+                convertedData = data.stream().map(o -> (Integer) o).collect(Collectors.toList());
+                break;
         }
 
         if (AlgorithmName.BUBBLE_SORT.equals(algorithmName)) {
-            floatSortingMadness.setStrategy(new SortingTimeDecorator<Float>(new BubbleSort<>()));
+            sortingMadness.setStrategy(new SortingTimeDecorator(new BubbleSort()));
         }
         if (AlgorithmName.SELECTION_SORT.equals(algorithmName)) {
-            floatSortingMadness.setStrategy(new SortingTimeDecorator<Float>(new SelectionSort<>()));
+            sortingMadness.setStrategy(new SortingTimeDecorator(new SelectionSort()));
         }
 
-        return floatSortingMadness.performSort(data, Comparator.naturalOrder());
+        return sortingMadness.performSort(convertedData, (Comparator<Comparable<?>>) Comparator.naturalOrder());
     }
 }

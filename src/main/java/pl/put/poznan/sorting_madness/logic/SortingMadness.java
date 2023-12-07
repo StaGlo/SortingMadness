@@ -9,19 +9,23 @@ import java.util.List;
  * This is just an example to show that the logic should be outside the REST service.
  */
 
-public class SortingMadness<T extends Comparable<T>> {
-    private SortingStrategy<T> sortingStrategy;
+@Component
+public class SortingMadness {
+    private SortingStrategy sortingStrategy;
 
-    public SortingMadness(){
-        this.sortingStrategy=new SelectionSort<>();
+    public SortingMadness() {
+        this.sortingStrategy = new SelectionSort();
     }
-    public SortingMadness(SortingStrategy<T> sortingStrategy){
+
+    public SortingMadness(SortingStrategy sortingStrategy) {
         this.sortingStrategy = sortingStrategy;
     }
-    public List<T> performSort(List<T> data, Comparator<T> customComparator) {
-        return sortingStrategy.sort(data,customComparator);
+
+    public List<Comparable<?>> performSort(List<Comparable<?>> data, Comparator<Comparable<?>> customComparator) {
+        return sortingStrategy.sort(data, customComparator);
     }
-    public void setStrategy(SortingStrategy<T> sortingStrategy) {
+
+    public void setStrategy(SortingStrategy sortingStrategy) {
         this.sortingStrategy = sortingStrategy;
     }
 }
