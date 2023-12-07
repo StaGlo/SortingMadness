@@ -19,23 +19,14 @@ public class SortingMadnessController {
     private SortingMadnessService sortingMadnessService;
 
     @GetMapping("/values")
-    public String  sortValues(
+    public Map<String, Object> sortValues(
             @RequestParam(defaultValue = "BUBBLE_SORT") String algorithm,
             @RequestParam(defaultValue = "FLOATS") String inputType,
             @RequestBody List<Object> data) throws WrongParameterException {
         log.debug(data.toString());
         log.debug(algorithm);
 
-        Map<String,Object> responseMap = sortingMadnessService.sortValues(algorithm, inputType, data);
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            return objectMapper.writeValueAsString(responseMap);
-        } catch (Exception e) {
-            // Handle exception (e.g., log it or return an error message and code 500)
-            e.printStackTrace();
-            return "Error converting to JSON";
-        }
+        return sortingMadnessService.sortValues(algorithm, inputType, data);
     }
 }
 
