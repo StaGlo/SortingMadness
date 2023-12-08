@@ -21,24 +21,22 @@ public class SortingMadnessController {
     @GetMapping("/values")
     public SortingResponse sortValues(
             @RequestParam(defaultValue = "BUBBLE_SORT") String algorithm,
-            @RequestParam(defaultValue = "FLOATS") String inputType,
             @RequestBody List<Object> data) throws WrongParameterException {
         log.debug(data.toString());
         log.debug(algorithm);
 
-        return sortingMadnessService.sortValues(algorithm, inputType, data);
+        return sortingMadnessService.sortValues(algorithm, data);
     }
 
     @GetMapping("/objects")
     public SortingResponse sortObjects(
             @RequestParam(defaultValue = "BUBBLE_SORT") String algorithm,
-            @RequestParam(defaultValue = "FLOATS") String inputType,
             @RequestParam String field,
             @RequestBody List<Map<String, Object>> data) throws WrongParameterException {
         log.debug(data.toString());
         log.debug(algorithm);
 
-        return sortingMadnessService.sortObjects(algorithm, inputType, data, field);
+        return sortingMadnessService.sortObjects(algorithm, data, field);
     }
 }
 
