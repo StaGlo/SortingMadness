@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This is just an example to show that the logic should be outside the REST service.
@@ -21,8 +22,12 @@ public class SortingMadness {
         this.sortingStrategy = sortingStrategy;
     }
 
-    public SortingResponse performSort(List<Comparable<?>> data, Comparator<Comparable<?>> customComparator) {
-        return sortingStrategy.sort(data, customComparator);
+    public <T extends Comparable<T>> SortingResponse performSortValues(List<T> data, Comparator<T> customComparator) {
+        return sortingStrategy.sortValues(data, customComparator);
+    }
+
+    public <T extends Comparable<T>> SortingResponse performSortObjects(List<Map<String, Object>> data, Comparator<T> customComparator, String field) {
+        return sortingStrategy.sortObjects(data, customComparator, field);
     }
 
     public void setStrategy(SortingStrategy sortingStrategy) {
