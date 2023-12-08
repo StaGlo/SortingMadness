@@ -6,7 +6,7 @@ import java.util.Map;
 
 // Strategy interface
 public interface SortingStrategy {
-    SortingResponse sortValues(List<Comparable<?>> data, Comparator<Comparable<?>> customComparator);
+    <T extends Comparable<T>> SortingResponse sortValues(List<T> data, Comparator<T> customComparator);
 
-    SortingResponse sortObjects(List<Map<String, Object>> data, Comparator<Comparable<?>> customComparator, String field);
+    <T extends Comparable<T>> SortingResponse sortObjects(List<Map<String, Object>> data, Comparator<T> customComparator, String field);
 }

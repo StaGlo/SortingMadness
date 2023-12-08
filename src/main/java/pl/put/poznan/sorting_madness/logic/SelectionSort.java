@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 // Concrete strategy: Selection Sort
 public class SelectionSort implements SortingStrategy {
     @Override
-    public SortingResponse sortValues(List<Comparable<?>> data, Comparator<Comparable<?>> customComparator) {
+    public <T extends Comparable<T>> SortingResponse sortValues(List<T> data, Comparator<T> customComparator) {
         int n = data.size();
 
         for (int i = 0; i < n - 1; i++) {
@@ -26,14 +26,14 @@ public class SelectionSort implements SortingStrategy {
     }
 
     @Override
-    public SortingResponse sortObjects(List<Map<String, Object>> data, Comparator<Comparable<?>> customComparator, String field) {
+    public <T extends Comparable<T>> SortingResponse sortObjects(List<Map<String, Object>> data, Comparator<T> customComparator, String field) {
         int n = data.size();
 
         for (int i = 0; i < n - 1; i++) {
             int minIndex = i;
             for (int j = i + 1; j < n; j++) {
-                var value1 = (Comparable<?>) data.get(j).get(field);
-                var value2 = (Comparable<?>) data.get(minIndex).get(field);
+                var value1 = (T) data.get(j).get(field);
+                var value2 = (T) data.get(minIndex).get(field);
                 if (customComparator.compare(value1, value2) < 0) {
                     minIndex = j;
                 }

@@ -17,7 +17,7 @@ public class SortingTimeDecorator implements SortingStrategy {
     }
 
     @Override
-    public SortingResponse sortValues(List<Comparable<?>> data, Comparator<Comparable<?>> customComparator) {
+    public <T extends Comparable<T>> SortingResponse sortValues(List<T> data, Comparator<T> customComparator) {
         long startTime = System.nanoTime();
 
         var sortingResult = originalStrategy.sortValues(data, customComparator);
@@ -31,7 +31,7 @@ public class SortingTimeDecorator implements SortingStrategy {
     }
 
     @Override
-    public SortingResponse sortObjects(List<Map<String, Object>> data, Comparator<Comparable<?>> customComparator, String field) {
+    public <T extends Comparable<T>> SortingResponse sortObjects(List<Map<String, Object>> data, Comparator<T> customComparator, String field) {
         long startTime = System.nanoTime();
 
         var sortingResult = originalStrategy.sortObjects(data, customComparator, field);

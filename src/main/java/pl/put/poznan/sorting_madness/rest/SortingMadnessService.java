@@ -21,7 +21,7 @@ public class SortingMadnessService {
     @NonNull
     private SortingMadness sortingMadness;
 
-    public SortingResponse sortValues(String algorithmAsString, List<Object> data)
+    public <T extends Comparable<T>> SortingResponse sortValues(String algorithmAsString, List<Object> data)
             throws WrongParameterException {
         validateAlgorithmName(algorithmAsString);
         validateListEmpty(data);
@@ -29,25 +29,25 @@ public class SortingMadnessService {
         validateInputComparable(data);
 
         var algorithmName = AlgorithmName.valueOf(algorithmAsString);
-        List<Comparable<?>> convertedData = data.stream().map(o -> (Comparable<?>) o).collect(Collectors.toList());
+        List<T> convertedData = data.stream().map(o -> (T) o).collect(Collectors.toList());
 
         if (AlgorithmName.BUBBLE_SORT.equals(algorithmName)) {
             sortingMadness.setStrategy(new SortingTimeDecorator(new BubbleSort()));
-            var sortingResult = sortingMadness.performSortValues(convertedData, (Comparator<Comparable<?>>) Comparator.naturalOrder());
+            var sortingResult = sortingMadness.performSortValues(convertedData, Comparator.naturalOrder());
             sortingResult.setAlgorithmName(AlgorithmName.BUBBLE_SORT);
             return sortingResult;
         }
         if (AlgorithmName.SELECTION_SORT.equals(algorithmName)) {
             sortingMadness.setStrategy(new SortingTimeDecorator(new SelectionSort()));
-            var sortingResult = sortingMadness.performSortValues(convertedData, (Comparator<Comparable<?>>) Comparator.naturalOrder());
+            var sortingResult = sortingMadness.performSortValues(convertedData, Comparator.naturalOrder());
             sortingResult.setAlgorithmName(AlgorithmName.SELECTION_SORT);
             return sortingResult;
         }
         return null;
     }
 
-    public SortingResponse sortObjects(String algorithmAsString,
-                                       List<Map<String, Object>> data, String field) throws WrongParameterException {
+    public <T extends Comparable<T>> SortingResponse sortObjects(String algorithmAsString,
+                                                                 List<Map<String, Object>> data, String field) throws WrongParameterException {
         validateAlgorithmName(algorithmAsString);
         validateListEmpty(data);
         checkFieldPresence(data, field);
@@ -60,13 +60,15 @@ public class SortingMadnessService {
 
         if (AlgorithmName.BUBBLE_SORT.equals(algorithmName)) {
             sortingMadness.setStrategy(new SortingTimeDecorator(new BubbleSort()));
-            var sortingResult = sortingMadness.performSortObjects(data, (Comparator<Comparable<?>>) Comparator.naturalOrder(), field);
+            Comparator<T> comparator = Comparator.naturalOrder();
+            var sortingResult = sortingMadness.performSortObjects(data, comparator, field);
             sortingResult.setAlgorithmName(AlgorithmName.BUBBLE_SORT);
             return sortingResult;
         }
         if (AlgorithmName.SELECTION_SORT.equals(algorithmName)) {
             sortingMadness.setStrategy(new SortingTimeDecorator(new SelectionSort()));
-            var sortingResult = sortingMadness.performSortObjects(data, (Comparator<Comparable<?>>) Comparator.naturalOrder(), field);
+            Comparator<T> comparator = Comparator.naturalOrder();
+            var sortingResult = sortingMadness.performSortObjects(data, comparator, field);
             sortingResult.setAlgorithmName(AlgorithmName.SELECTION_SORT);
             return sortingResult;
         }

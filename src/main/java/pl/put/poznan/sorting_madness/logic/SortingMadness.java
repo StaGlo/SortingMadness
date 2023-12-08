@@ -22,11 +22,11 @@ public class SortingMadness {
         this.sortingStrategy = sortingStrategy;
     }
 
-    public SortingResponse performSortValues(List<Comparable<?>> data, Comparator<Comparable<?>> customComparator) {
+    public <T extends Comparable<T>> SortingResponse performSortValues(List<T> data, Comparator<T> customComparator) {
         return sortingStrategy.sortValues(data, customComparator);
     }
 
-    public SortingResponse performSortObjects(List<Map<String, Object>> data, Comparator<Comparable<?>> customComparator, String field) {
+    public <T extends Comparable<T>> SortingResponse performSortObjects(List<Map<String, Object>> data, Comparator<T> customComparator, String field) {
         return sortingStrategy.sortObjects(data, customComparator, field);
     }
 
