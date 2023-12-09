@@ -60,6 +60,30 @@ public class SortingMadnessService {
             sortingResult.setAlgorithmName(AlgorithmName.SELECTION_SORT);
             return sortingResult;
         }
+        if (AlgorithmName.INSERTION_SORT.equals(algorithmName)) {
+            sortingMadness.setStrategy(new SortingTimeDecorator(new InsertionSort()));
+            var sortingResult = sortingMadness.performSortValues(convertedData, Comparator.naturalOrder());
+            sortingResult.setAlgorithmName(AlgorithmName.INSERTION_SORT);
+            return sortingResult;
+        }
+        if (AlgorithmName.QUICK_SORT.equals(algorithmName)) {
+            sortingMadness.setStrategy(new SortingTimeDecorator(new QuickSort()));
+            var sortingResult = sortingMadness.performSortValues(convertedData, Comparator.naturalOrder());
+            sortingResult.setAlgorithmName(AlgorithmName.QUICK_SORT);
+            return sortingResult;
+        }
+        if (AlgorithmName.MERGE_SORT.equals(algorithmName)) {
+            sortingMadness.setStrategy(new SortingTimeDecorator(new MergeSort()));
+            var sortingResult = sortingMadness.performSortValues(convertedData, Comparator.naturalOrder());
+            sortingResult.setAlgorithmName(AlgorithmName.MERGE_SORT);
+            return sortingResult;
+        }
+        if (AlgorithmName.COUNTING_SORT.equals(algorithmName)) {
+            sortingMadness.setStrategy(new SortingTimeDecorator(new CountingSort()));
+            var sortingResult = sortingMadness.performSortValues(convertedData, Comparator.naturalOrder());
+            sortingResult.setAlgorithmName(AlgorithmName.COUNTING_SORT);
+            return sortingResult;
+        }
         return null;
     }
 
@@ -99,6 +123,30 @@ public class SortingMadnessService {
             var sortingResult = sortingMadness.performSortObjects(data, comparator, field);
             sortingResult.setAlgorithmName(AlgorithmName.SELECTION_SORT);
             return sortingResult;
+        }
+        if (AlgorithmName.INSERTION_SORT.equals(algorithmName)) {
+            sortingMadness.setStrategy(new SortingTimeDecorator(new InsertionSort()));
+            Comparator<T> comparator = Comparator.naturalOrder();
+            var sortingResult = sortingMadness.performSortObjects(data, comparator, field);
+            sortingResult.setAlgorithmName(AlgorithmName.INSERTION_SORT);
+            return sortingResult;
+        }
+        if (AlgorithmName.QUICK_SORT.equals(algorithmName)) {
+            sortingMadness.setStrategy(new SortingTimeDecorator(new QuickSort()));
+            Comparator<T> comparator = Comparator.naturalOrder();
+            var sortingResult = sortingMadness.performSortObjects(data, comparator, field);
+            sortingResult.setAlgorithmName(AlgorithmName.QUICK_SORT);
+            return sortingResult;
+        }
+        if (AlgorithmName.MERGE_SORT.equals(algorithmName)) {
+            sortingMadness.setStrategy(new SortingTimeDecorator(new MergeSort()));
+            Comparator<T> comparator = Comparator.naturalOrder();
+            var sortingResult = sortingMadness.performSortObjects(data, comparator, field);
+            sortingResult.setAlgorithmName(AlgorithmName.MERGE_SORT);
+            return sortingResult;
+        }
+        if (AlgorithmName.COUNTING_SORT.equals(algorithmName)) {
+            throw new IllegalArgumentException("Cannot perform counting sort on objects");
         }
         return null;
     }
