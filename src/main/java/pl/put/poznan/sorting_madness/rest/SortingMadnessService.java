@@ -48,19 +48,29 @@ public class SortingMadnessService {
         var algorithmName = AlgorithmName.valueOf(algorithmAsString);
         List<T> convertedData = data.stream().map(o -> (T) o).collect(Collectors.toList());
 
-        if (AlgorithmName.BUBBLE_SORT.equals(algorithmName)) {
-            sortingMadness.setStrategy(new SortingTimeDecorator(new BubbleSort()));
-            var sortingResult = sortingMadness.performSortValues(convertedData, Comparator.naturalOrder());
-            sortingResult.setAlgorithmName(AlgorithmName.BUBBLE_SORT);
-            return sortingResult;
+        switch (algorithmName) {
+            case BUBBLE_SORT:
+                sortingMadness.setStrategy(new SortingTimeDecorator(new BubbleSort()));
+                break;
+            case SELECTION_SORT:
+                sortingMadness.setStrategy(new SortingTimeDecorator(new SelectionSort()));
+                break;
+            case INSERTION_SORT:
+                sortingMadness.setStrategy(new SortingTimeDecorator(new InsertionSort()));
+                break;
+            case QUICK_SORT:
+                sortingMadness.setStrategy(new SortingTimeDecorator(new QuickSort()));
+                break;
+            case MERGE_SORT:
+                sortingMadness.setStrategy(new SortingTimeDecorator(new MergeSort()));
+                break;
+            case COUNTING_SORT:
+                sortingMadness.setStrategy(new SortingTimeDecorator(new CountingSort()));
+                break;
         }
-        if (AlgorithmName.SELECTION_SORT.equals(algorithmName)) {
-            sortingMadness.setStrategy(new SortingTimeDecorator(new SelectionSort()));
-            var sortingResult = sortingMadness.performSortValues(convertedData, Comparator.naturalOrder());
-            sortingResult.setAlgorithmName(AlgorithmName.SELECTION_SORT);
-            return sortingResult;
-        }
-        return null;
+        var sortingResult = sortingMadness.performSortValues(convertedData, Comparator.naturalOrder());
+        sortingResult.setAlgorithmName(algorithmName);
+        return sortingResult;
     }
 
     /**
@@ -85,22 +95,31 @@ public class SortingMadnessService {
         validateInputComparable(values);
 
         var algorithmName = AlgorithmName.valueOf(algorithmAsString);
+        Comparator<T> comparator = Comparator.naturalOrder();
 
-        if (AlgorithmName.BUBBLE_SORT.equals(algorithmName)) {
-            sortingMadness.setStrategy(new SortingTimeDecorator(new BubbleSort()));
-            Comparator<T> comparator = Comparator.naturalOrder();
-            var sortingResult = sortingMadness.performSortObjects(data, comparator, field);
-            sortingResult.setAlgorithmName(AlgorithmName.BUBBLE_SORT);
-            return sortingResult;
+        switch (algorithmName) {
+            case BUBBLE_SORT:
+                sortingMadness.setStrategy(new SortingTimeDecorator(new BubbleSort()));
+                break;
+            case SELECTION_SORT:
+                sortingMadness.setStrategy(new SortingTimeDecorator(new SelectionSort()));
+                break;
+            case INSERTION_SORT:
+                sortingMadness.setStrategy(new SortingTimeDecorator(new InsertionSort()));
+                break;
+            case QUICK_SORT:
+                sortingMadness.setStrategy(new SortingTimeDecorator(new QuickSort()));
+                break;
+            case MERGE_SORT:
+                sortingMadness.setStrategy(new SortingTimeDecorator(new MergeSort()));
+                break;
+            case COUNTING_SORT:
+                sortingMadness.setStrategy(new SortingTimeDecorator(new CountingSort()));
+                break;
         }
-        if (AlgorithmName.SELECTION_SORT.equals(algorithmName)) {
-            sortingMadness.setStrategy(new SortingTimeDecorator(new SelectionSort()));
-            Comparator<T> comparator = Comparator.naturalOrder();
-            var sortingResult = sortingMadness.performSortObjects(data, comparator, field);
-            sortingResult.setAlgorithmName(AlgorithmName.SELECTION_SORT);
-            return sortingResult;
-        }
-        return null;
+        var sortingResult = sortingMadness.performSortObjects(data, comparator, field);
+        sortingResult.setAlgorithmName(algorithmName);
+        return sortingResult;
     }
 
     /**
