@@ -32,10 +32,10 @@ public class SortingMadnessService {
      * Sorts a list of values using the specified sorting algorithm.
      * Validates the algorithm name and data before performing the sorting operation.
      *
-     * @param <T>                  The type of elements in the list, extending Comparable.
-     * @param algorithmAsString    The name of the sorting algorithm to be used.
-     * @param data                 The list of values to be sorted.
-     * @return                     A SortingResponse object containing the sorted data and the time taken to sort.
+     * @param <T>               The type of elements in the list, extending Comparable.
+     * @param algorithmAsString The name of the sorting algorithm to be used.
+     * @param data              The list of values to be sorted.
+     * @return A SortingResponse object containing the sorted data and the time taken to sort.
      * @throws WrongParameterException If the algorithm name is invalid, the data list is empty, items are not of the same type, or items are not comparable.
      */
     public <T extends Comparable<T>> SortingResponse sortValues(String algorithmAsString, List<Object> data)
@@ -46,6 +46,10 @@ public class SortingMadnessService {
         validateInputComparable(data);
 
         var algorithmName = AlgorithmName.valueOf(algorithmAsString);
+        if (algorithmName.equals(AlgorithmName.COUNTING_SORT)) {
+            validateCountingSortInput(data);
+        }
+        
         List<T> convertedData = data.stream().map(o -> (T) o).collect(Collectors.toList());
 
         switch (algorithmName) {
@@ -77,11 +81,11 @@ public class SortingMadnessService {
      * Sorts a list of objects based on a specified field using the specified algorithm.
      * Validates the algorithm name, data, and field before performing the sorting.
      *
-     * @param <T>                  The type of elements in the list, extending Comparable.
-     * @param algorithmAsString    The name of the sorting algorithm to be used.
-     * @param data                 The list of objects to be sorted.
-     * @param field                The field of the objects to sort by.
-     * @return                     A SortingResponse object containing the sorted data and the time taken to sort.
+     * @param <T>               The type of elements in the list, extending Comparable.
+     * @param algorithmAsString The name of the sorting algorithm to be used.
+     * @param data              The list of objects to be sorted.
+     * @param field             The field of the objects to sort by.
+     * @return A SortingResponse object containing the sorted data and the time taken to sort.
      * @throws WrongParameterException If the algorithm name is invalid, the data list is empty, field is not present in all objects, items are not of the same type, or items are not comparable.
      */
     public <T extends Comparable<T>> SortingResponse sortObjects(String algorithmAsString,
@@ -95,6 +99,9 @@ public class SortingMadnessService {
         validateInputComparable(values);
 
         var algorithmName = AlgorithmName.valueOf(algorithmAsString);
+        if (algorithmName.equals(AlgorithmName.COUNTING_SORT)) {
+            validateCountingSortInput(values);
+        }
         Comparator<T> comparator = Comparator.naturalOrder();
 
         switch (algorithmName) {
@@ -182,6 +189,12 @@ public class SortingMadnessService {
     private void validateListEmpty(List<?> data) throws WrongParameterException {
         if (data.isEmpty()) {
             throw new WrongParameterException("The list cannot be empty");
+        }
+    }
+
+    private void validateCountingSortInput(List<Object> data) throws WrongParameterException {
+        if (!data.stream().allMatch(o -> (o instanceof Integer) && ((Integer) o > 0))) {
+            throw new WrongParameterException("Counting sort is only applicable to positive integers");
         }
     }
 }
