@@ -19,7 +19,7 @@ public class QuickSort implements SortingStrategy {
         return SortingResponse.builder().sortedList(data.stream().map(o -> (Object) o).collect(Collectors.toList())).build();
     }
 
-    static <T extends Comparable<T>> void qSortVal(List<T> data, int low, int high, Comparator<T> customComparator)
+    private <T extends Comparable<T>> void qSortVal(List<T> data, int low, int high, Comparator<T> customComparator)
     {
         if (low < high) {
             int pi = partitionVal(data, low, high, customComparator);
@@ -28,7 +28,7 @@ public class QuickSort implements SortingStrategy {
         }
     }
 
-    static <T extends Comparable<T>> void qSortObj(List<Map<String, Object>> data, int low, int high, Comparator<T> customComparator, String field)
+    private <T extends Comparable<T>> void qSortObj(List<Map<String, Object>> data, int low, int high, Comparator<T> customComparator, String field)
     {
         if (low < high) {
             int pi = partitionObj(data, low, high, customComparator, field);
@@ -37,7 +37,7 @@ public class QuickSort implements SortingStrategy {
         }
     }
 
-    static <T extends Comparable<T>> int  partitionVal(List<T> data, int low, int high, Comparator<T> customComparator)
+    private <T extends Comparable<T>> int partitionVal(List<T> data, int low, int high, Comparator<T> customComparator)
     {
         var pivot = data.get(high);
         int i = (low - 1);
@@ -55,7 +55,7 @@ public class QuickSort implements SortingStrategy {
         return (i + 1);
     }
 
-    static <T extends Comparable<T>> int  partitionObj(List<Map<String, Object>> data, int low, int high, Comparator<T> customComparator, String field)
+    private <T extends Comparable<T>> int partitionObj(List<Map<String, Object>> data, int low, int high, Comparator<T> customComparator, String field)
     {
         var pivot = data.get(high);
         int i = (low - 1);

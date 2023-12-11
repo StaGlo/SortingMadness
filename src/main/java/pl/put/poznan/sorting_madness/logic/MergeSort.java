@@ -20,7 +20,7 @@ public class MergeSort implements SortingStrategy {
         return SortingResponse.builder().sortedList(data.stream().map(o -> (Object) o).collect(Collectors.toList())).build();
     }
 
-    <T extends Comparable<T>> void mSortVal(List<T> data, int low, int high, Comparator<T> customComparator)
+    private <T extends Comparable<T>> void mSortVal(List<T> data, int low, int high, Comparator<T> customComparator)
     {
         if (low < high) {
             int mid = low + (high - low) / 2;
@@ -30,7 +30,7 @@ public class MergeSort implements SortingStrategy {
         }
     }
 
-    <T extends Comparable<T>> void mSortObj(List<Map<String, Object>> data, int low, int high, Comparator<T> customComparator, String field)
+    private  <T extends Comparable<T>> void mSortObj(List<Map<String, Object>> data, int low, int high, Comparator<T> customComparator, String field)
     {
         if (low < high) {
             int mid = low + (high - low) / 2;
@@ -40,7 +40,7 @@ public class MergeSort implements SortingStrategy {
         }
     }
 
-    <T extends Comparable<T>> void mergeVal(List<T> data, int low, int mid, int high, Comparator<T> customComparator)
+    private <T extends Comparable<T>> void mergeVal(List<T> data, int low, int mid, int high, Comparator<T> customComparator)
     {
         int n1 = mid - low + 1;
         int n2 = high - mid;
@@ -76,7 +76,7 @@ public class MergeSort implements SortingStrategy {
         }
     }
 
-    <T extends Comparable<T>> void mergeObj(List<Map<String, Object>> data, int low, int mid, int high, Comparator<T> customComparator, String field)
+    private <T extends Comparable<T>> void mergeObj(List<Map<String, Object>> data, int low, int mid, int high, Comparator<T> customComparator, String field)
     {
         int n1 = mid - low + 1;
         int n2 = high - mid;
