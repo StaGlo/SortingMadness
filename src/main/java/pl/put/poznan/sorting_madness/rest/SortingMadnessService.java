@@ -7,10 +7,7 @@ import org.springframework.stereotype.Service;
 import pl.put.poznan.sorting_madness.exception.WrongParameterException;
 import pl.put.poznan.sorting_madness.logic.*;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -38,43 +35,49 @@ public class SortingMadnessService {
      * @return A SortingResponse object containing the sorted data and the time taken to sort.
      * @throws WrongParameterException If the algorithm name is invalid, the data list is empty, items are not of the same type, or items are not comparable.
      */
-    public <T extends Comparable<T>> SortingResponse sortValues(String algorithmAsString, List<Object> data)
+    public <T extends Comparable<T>> List<SortingResponse> sortValues(String algorithmAsString, List<Object> data)
             throws WrongParameterException {
-        validateAlgorithmName(algorithmAsString);
         validateListEmpty(data);
         validateInputSameType(data);
         validateInputComparable(data);
 
-        var algorithmName = AlgorithmName.valueOf(algorithmAsString);
-        if (algorithmName.equals(AlgorithmName.COUNTING_SORT)) {
-            validateCountingSortInput(data);
-        }
-        
-        List<T> convertedData = data.stream().map(o -> (T) o).collect(Collectors.toList());
+        var algorithmList = algorithmAsString.split(",");
 
-        switch (algorithmName) {
-            case BUBBLE_SORT:
-                sortingMadness.setStrategy(new SortingTimeDecorator(new BubbleSort()));
-                break;
-            case SELECTION_SORT:
-                sortingMadness.setStrategy(new SortingTimeDecorator(new SelectionSort()));
-                break;
-            case INSERTION_SORT:
-                sortingMadness.setStrategy(new SortingTimeDecorator(new InsertionSort()));
-                break;
-            case QUICK_SORT:
-                sortingMadness.setStrategy(new SortingTimeDecorator(new QuickSort()));
-                break;
-            case MERGE_SORT:
-                sortingMadness.setStrategy(new SortingTimeDecorator(new MergeSort()));
-                break;
-            case COUNTING_SORT:
-                sortingMadness.setStrategy(new SortingTimeDecorator(new CountingSort()));
-                break;
+        List<SortingResponse> finalResult = new ArrayList<>();
+        for(String algorithmListElement: algorithmList) {
+            validateAlgorithmName(algorithmListElement);
+            var algorithmName = AlgorithmName.valueOf(algorithmListElement);
+            if (algorithmName.equals(AlgorithmName.COUNTING_SORT)) {
+                validateCountingSortInput(data);
+            }
+
+            List<T> convertedData = data.stream().map(o -> (T) o).collect(Collectors.toList());
+
+            switch (algorithmName) {
+                case BUBBLE_SORT:
+                    sortingMadness.setStrategy(new SortingTimeDecorator(new BubbleSort()));
+                    break;
+                case SELECTION_SORT:
+                    sortingMadness.setStrategy(new SortingTimeDecorator(new SelectionSort()));
+                    break;
+                case INSERTION_SORT:
+                    sortingMadness.setStrategy(new SortingTimeDecorator(new InsertionSort()));
+                    break;
+                case QUICK_SORT:
+                    sortingMadness.setStrategy(new SortingTimeDecorator(new QuickSort()));
+                    break;
+                case MERGE_SORT:
+                    sortingMadness.setStrategy(new SortingTimeDecorator(new MergeSort()));
+                    break;
+                case COUNTING_SORT:
+                    sortingMadness.setStrategy(new SortingTimeDecorator(new CountingSort()));
+                    break;
+            }
+            var sortingResult = sortingMadness.performSortValues(convertedData, Comparator.naturalOrder());
+            sortingResult.setAlgorithmName(algorithmName);
+            finalResult.add(sortingResult);
         }
-        var sortingResult = sortingMadness.performSortValues(convertedData, Comparator.naturalOrder());
-        sortingResult.setAlgorithmName(algorithmName);
-        return sortingResult;
+        return finalResult;
     }
 
     /**
@@ -88,9 +91,8 @@ public class SortingMadnessService {
      * @return A SortingResponse object containing the sorted data and the time taken to sort.
      * @throws WrongParameterException If the algorithm name is invalid, the data list is empty, field is not present in all objects, items are not of the same type, or items are not comparable.
      */
-    public <T extends Comparable<T>> SortingResponse sortObjects(String algorithmAsString,
-                                                                 List<Map<String, Object>> data, String field) throws WrongParameterException {
-        validateAlgorithmName(algorithmAsString);
+    public <T extends Comparable<T>> List<SortingResponse> sortObjects(String algorithmAsString,
+                                                                        List<Map<String, Object>> data, String field) throws WrongParameterException {
         validateListEmpty(data);
         checkFieldPresence(data, field);
 
@@ -98,35 +100,42 @@ public class SortingMadnessService {
         validateInputSameType(values);
         validateInputComparable(values);
 
-        var algorithmName = AlgorithmName.valueOf(algorithmAsString);
-        if (algorithmName.equals(AlgorithmName.COUNTING_SORT)) {
-            validateCountingSortInput(values);
-        }
-        Comparator<T> comparator = Comparator.naturalOrder();
+        var algorithmList = algorithmAsString.split(",");
+        List<SortingResponse> finalResult = new ArrayList<>();
 
-        switch (algorithmName) {
-            case BUBBLE_SORT:
-                sortingMadness.setStrategy(new SortingTimeDecorator(new BubbleSort()));
-                break;
-            case SELECTION_SORT:
-                sortingMadness.setStrategy(new SortingTimeDecorator(new SelectionSort()));
-                break;
-            case INSERTION_SORT:
-                sortingMadness.setStrategy(new SortingTimeDecorator(new InsertionSort()));
-                break;
-            case QUICK_SORT:
-                sortingMadness.setStrategy(new SortingTimeDecorator(new QuickSort()));
-                break;
-            case MERGE_SORT:
-                sortingMadness.setStrategy(new SortingTimeDecorator(new MergeSort()));
-                break;
-            case COUNTING_SORT:
-                sortingMadness.setStrategy(new SortingTimeDecorator(new CountingSort()));
-                break;
+        for(String algorithmListElement: algorithmList) {
+            validateAlgorithmName(algorithmListElement);
+            var algorithmName = AlgorithmName.valueOf(algorithmListElement);
+            if (algorithmName.equals(AlgorithmName.COUNTING_SORT)) {
+                validateCountingSortInput(values);
+            }
+            Comparator<T> comparator = Comparator.naturalOrder();
+
+            switch (algorithmName) {
+                case BUBBLE_SORT:
+                    sortingMadness.setStrategy(new SortingTimeDecorator(new BubbleSort()));
+                    break;
+                case SELECTION_SORT:
+                    sortingMadness.setStrategy(new SortingTimeDecorator(new SelectionSort()));
+                    break;
+                case INSERTION_SORT:
+                    sortingMadness.setStrategy(new SortingTimeDecorator(new InsertionSort()));
+                    break;
+                case QUICK_SORT:
+                    sortingMadness.setStrategy(new SortingTimeDecorator(new QuickSort()));
+                    break;
+                case MERGE_SORT:
+                    sortingMadness.setStrategy(new SortingTimeDecorator(new MergeSort()));
+                    break;
+                case COUNTING_SORT:
+                    sortingMadness.setStrategy(new SortingTimeDecorator(new CountingSort()));
+                    break;
+            }
+            var sortingResult = sortingMadness.performSortObjects(data, comparator, field);
+            sortingResult.setAlgorithmName(algorithmName);
+            finalResult.add(sortingResult);
         }
-        var sortingResult = sortingMadness.performSortObjects(data, comparator, field);
-        sortingResult.setAlgorithmName(algorithmName);
-        return sortingResult;
+        return finalResult;
     }
 
     /**
