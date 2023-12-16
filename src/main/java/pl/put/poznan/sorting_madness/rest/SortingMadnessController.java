@@ -35,7 +35,7 @@ public class SortingMadnessController {
      * @throws WrongParameterException If any validation on the input fails.
      */
     @GetMapping("/values")
-    public SortingResponse sortValues(
+    public List<SortingResponse> sortValues(
             @RequestParam(defaultValue = "BUBBLE_SORT") String algorithm,
             @RequestBody List<Object> data) throws WrongParameterException {
         log.debug(data.toString());
@@ -58,7 +58,7 @@ public class SortingMadnessController {
      * @throws WrongParameterException If any validation on the input fails.
      */
     @GetMapping("/objects")
-    public SortingResponse sortObjects(
+    public List<SortingResponse> sortObjects(
             @RequestParam(defaultValue = "BUBBLE_SORT") String algorithm,
             @RequestParam String field,
             @RequestBody List<Map<String, Object>> data) throws WrongParameterException {
