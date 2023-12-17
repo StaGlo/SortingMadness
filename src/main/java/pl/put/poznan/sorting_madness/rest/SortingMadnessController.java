@@ -20,7 +20,9 @@ import java.util.Map;
 @RequestMapping
 public class SortingMadnessController {
 
-    /** The service for handling sorting operations. */
+    /**
+     * The service for handling sorting operations.
+     */
     private SortingMadnessService sortingMadnessService;
 
     /**
@@ -31,12 +33,12 @@ public class SortingMadnessController {
      * @param algorithm The sorting algorithm to be used (e.g., "BUBBLE_SORT").
      * @param data      The list of values to be sorted.
      * @return A SortingResponse object containing the sorted data and the time
-     *         taken to sort.
+     * taken to sort.
      * @throws WrongParameterException If any validation on the input fails.
      */
     @GetMapping("/values")
     public List<SortingResponse> sortValues(
-            @RequestParam(defaultValue = "BUBBLE_SORT") String algorithm,
+            @RequestParam(defaultValue = "") String algorithm,
             @RequestBody List<Object> data) throws WrongParameterException {
         log.debug(data.toString());
         log.debug(algorithm);
@@ -54,7 +56,7 @@ public class SortingMadnessController {
      * @param field     The field of the objects to sort by.
      * @param data      The list of objects to be sorted.
      * @return A SortingResponse object containing the sorted data and the time
-     *         taken to sort.
+     * taken to sort.
      * @throws WrongParameterException If any validation on the input fails.
      */
     @GetMapping("/objects")
