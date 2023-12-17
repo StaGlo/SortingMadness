@@ -159,6 +159,9 @@ public class SortingMadnessService {
      * @throws WrongParameterException If the algorithm name does not match any available algorithms.
      */
     private void validateAlgorithmName(String algorithmAsString) throws WrongParameterException {
+        if ("".equals(algorithmAsString)) {
+            throw new WrongParameterException("The algorithm name cannot be empty");
+        }
         if (Arrays.stream(AlgorithmName.values()).noneMatch(value -> value.name().equals(algorithmAsString))) {
             throw new WrongParameterException(String.format("No such algorithm exists: '%s'", algorithmAsString));
         }

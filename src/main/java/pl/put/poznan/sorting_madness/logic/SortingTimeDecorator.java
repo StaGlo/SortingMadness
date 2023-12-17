@@ -1,8 +1,6 @@
 package pl.put.poznan.sorting_madness.logic;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import pl.put.poznan.sorting_madness.rest.SortingMadnessController;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Comparator;
 import java.util.List;
@@ -12,15 +10,14 @@ import java.util.Map;
  * A decorator for SortingStrategy that adds timing functionality.
  * It measures the time taken to perform sorting operations.
  */
+
+
+@Slf4j
 public class SortingTimeDecorator extends SortingDecorator {
     /**
      * The original sorting strategy to be decorated with timing functionality.
      */
     private final SortingStrategy originalStrategy;
-    /**
-     * The logger object used for logging.
-     */
-    private static final Logger logger = LoggerFactory.getLogger(SortingMadnessController.class);
 
     /**
      * Constructor that accepts a SortingStrategy object.
@@ -37,7 +34,7 @@ public class SortingTimeDecorator extends SortingDecorator {
      * @param <T>              The type of elements in the list, extending Comparable.
      * @param data             The list of values to be sorted.
      * @param customComparator The comparator to be used for sorting.
-     * @return                 A SortingResponse object containing the sorted data and the time taken to sort.
+     * @return A SortingResponse object containing the sorted data and the time taken to sort.
      */
     @Override
     public <T extends Comparable<T>> SortingResponse sortValues(List<T> data, Comparator<T> customComparator) {
@@ -46,7 +43,7 @@ public class SortingTimeDecorator extends SortingDecorator {
         long endTime = System.nanoTime();
         long duration = endTime - startTime;
 
-        logger.info("Sorting took " + duration + " nanoseconds.");
+        log.info("Sorting took " + duration + " nanoseconds.");
         sortingResult.setTime(duration);
         return sortingResult;
     }
@@ -58,7 +55,7 @@ public class SortingTimeDecorator extends SortingDecorator {
      * @param data             The list of objects to be sorted.
      * @param customComparator The comparator to be used for sorting.
      * @param field            The field of the objects to sort by.
-     * @return                 A SortingResponse object containing the sorted data and the time taken to sort.
+     * @return A SortingResponse object containing the sorted data and the time taken to sort.
      */
     @Override
     public <T extends Comparable<T>> SortingResponse sortObjects(List<Map<String, Object>> data, Comparator<T> customComparator, String field) {
@@ -67,7 +64,7 @@ public class SortingTimeDecorator extends SortingDecorator {
         long endTime = System.nanoTime();
         long duration = endTime - startTime;
 
-        logger.info("Sorting took " + duration + " nanoseconds.");
+        log.info("Sorting took " + duration + " nanoseconds.");
         sortingResult.setTime(duration);
         return sortingResult;
     }
