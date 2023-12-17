@@ -12,8 +12,7 @@ import java.util.Map;
  * A decorator for SortingStrategy that adds timing functionality.
  * It measures the time taken to perform sorting operations.
  */
-public class SortingTimeDecorator implements SortingStrategy {
-
+public class SortingTimeDecorator extends SortingDecorator {
     /**
      * The original sorting strategy to be decorated with timing functionality.
      */
