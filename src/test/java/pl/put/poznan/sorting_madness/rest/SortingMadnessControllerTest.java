@@ -33,7 +33,7 @@ class SortingMadnessControllerTest {
 
     @SneakyThrows
     @Test
-    void sortValues() {
+    void testSortValues() {
         //given
         List<Object> body = List.of(3, 2, 1);
         var mapper = new ObjectMapper();
@@ -54,7 +54,7 @@ class SortingMadnessControllerTest {
 
     @SneakyThrows
     @Test
-    void sortObjects() {
+    void testSortObjects() {
         //given
         List<Map<String, Object>> body = List.of(
                 Map.of("a", 3, "b", 2, "c", 1),
