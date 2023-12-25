@@ -34,6 +34,7 @@ public class SortingMadnessService {
      *
      * @param <T>               The type of elements in the list, extending Comparable.
      * @param algorithmAsString The name of the sorting algorithm to be used.
+     * @param orderAsString     The sorting order to be used.
      * @param data              The list of values to be sorted.
      * @return A SortingResponse object containing the sorted data and the time taken to sort.
      * @throws WrongParameterException If the algorithm name is invalid, the data list is empty, items are not of the same type, or items are not comparable.
@@ -95,6 +96,7 @@ public class SortingMadnessService {
      *
      * @param <T>               The type of elements in the list, extending Comparable.
      * @param algorithmAsString The name of the sorting algorithm to be used.
+     * @param orderAsString     The sorting order to be used.
      * @param data              The list of objects to be sorted.
      * @param field             The field of the objects to sort by.
      * @return A SortingResponse object containing the sorted data and the time taken to sort.
@@ -218,12 +220,24 @@ public class SortingMadnessService {
         }
     }
 
+    /**
+     * Validate if input for counting sort is positive integers
+     *
+     * @param data The list to be checked.
+     * @throws WrongParameterException If the list contains negative integers.
+     */
     private void validateCountingSortInput(List<Object> data) throws WrongParameterException {
         if (!data.stream().allMatch(o -> (o instanceof Integer) && ((Integer) o > 0))) {
             throw new WrongParameterException("Counting sort is only applicable to positive integers");
         }
     }
 
+    /**
+     * Validates if the provided sorting order is valid.
+     *
+     * @param orderAsString The sorting order to be validated.
+     * @throws WrongParameterException If the sorting order is invalid.
+     */
     private void validateSortingOrder(String orderAsString) throws WrongParameterException {
         if ("".equals(orderAsString)) {
             throw new WrongParameterException("The sorting order cannot be empty");
