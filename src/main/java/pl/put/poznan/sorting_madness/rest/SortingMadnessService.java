@@ -7,7 +7,10 @@ import org.springframework.stereotype.Service;
 import pl.put.poznan.sorting_madness.exception.WrongParameterException;
 import pl.put.poznan.sorting_madness.logic.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -35,16 +38,18 @@ public class SortingMadnessService {
      * @return A SortingResponse object containing the sorted data and the time taken to sort.
      * @throws WrongParameterException If the algorithm name is invalid, the data list is empty, items are not of the same type, or items are not comparable.
      */
-    public <T extends Comparable<T>> List<SortingResponse> sortValues(String algorithmAsString, List<Object> data)
+    public <T extends Comparable<T>> List<SortingResponse> sortValues(String algorithmAsString, String orderAsString, List<Object> data)
             throws WrongParameterException {
+
         validateListEmpty(data);
         validateInputSameType(data);
         validateInputComparable(data);
+        validateSortingOrder(orderAsString);
 
         var algorithmList = algorithmAsString.split(",");
 
         List<SortingResponse> finalResult = new ArrayList<>();
-        for(String algorithmListElement: algorithmList) {
+        for (String algorithmListElement : algorithmList) {
             validateAlgorithmName(algorithmListElement);
             var algorithmName = AlgorithmName.valueOf(algorithmListElement);
             if (algorithmName.equals(AlgorithmName.COUNTING_SORT)) {
@@ -73,7 +78,11 @@ public class SortingMadnessService {
                     sortingMadness.setStrategy(new SortingTimeDecorator(new CountingSort()));
                     break;
             }
-            var sortingResult = sortingMadness.performSortValues(convertedData, Comparator.naturalOrder());
+
+            sortingMadness.setOrder(SortingOrder.valueOf(orderAsString));
+
+            var sortingResult = sortingMadness.performSortValues(convertedData);
+
             sortingResult.setAlgorithmName(algorithmName);
             finalResult.add(sortingResult);
         }
@@ -91,8 +100,11 @@ public class SortingMadnessService {
      * @return A SortingResponse object containing the sorted data and the time taken to sort.
      * @throws WrongParameterException If the algorithm name is invalid, the data list is empty, field is not present in all objects, items are not of the same type, or items are not comparable.
      */
-    public <T extends Comparable<T>> List<SortingResponse> sortObjects(String algorithmAsString,
-                                                                        List<Map<String, Object>> data, String field) throws WrongParameterException {
+    public <T extends Comparable<T>> List<SortingResponse> sortObjects(String algorithmAsString, String orderAsString,
+                                                                       List<Map<String, Object>> data, String field) throws WrongParameterException {
+
+        validateSortingOrder(orderAsString);
+
         validateListEmpty(data);
         checkFieldPresence(data, field);
 
@@ -103,13 +115,12 @@ public class SortingMadnessService {
         var algorithmList = algorithmAsString.split(",");
         List<SortingResponse> finalResult = new ArrayList<>();
 
-        for(String algorithmListElement: algorithmList) {
+        for (String algorithmListElement : algorithmList) {
             validateAlgorithmName(algorithmListElement);
             var algorithmName = AlgorithmName.valueOf(algorithmListElement);
             if (algorithmName.equals(AlgorithmName.COUNTING_SORT)) {
                 validateCountingSortInput(values);
             }
-            Comparator<T> comparator = Comparator.naturalOrder();
 
             switch (algorithmName) {
                 case BUBBLE_SORT:
@@ -131,7 +142,10 @@ public class SortingMadnessService {
                     sortingMadness.setStrategy(new SortingTimeDecorator(new CountingSort()));
                     break;
             }
-            var sortingResult = sortingMadness.performSortObjects(data, comparator, field);
+
+            sortingMadness.setOrder(SortingOrder.valueOf(orderAsString));
+
+            var sortingResult = sortingMadness.performSortObjects(data, field);
             sortingResult.setAlgorithmName(algorithmName);
             finalResult.add(sortingResult);
         }
@@ -207,6 +221,15 @@ public class SortingMadnessService {
     private void validateCountingSortInput(List<Object> data) throws WrongParameterException {
         if (!data.stream().allMatch(o -> (o instanceof Integer) && ((Integer) o > 0))) {
             throw new WrongParameterException("Counting sort is only applicable to positive integers");
+        }
+    }
+
+    private void validateSortingOrder(String orderAsString) throws WrongParameterException {
+        if ("".equals(orderAsString)) {
+            throw new WrongParameterException("The sorting order cannot be empty");
+        }
+        if (Arrays.stream(SortingOrder.values()).noneMatch(value -> value.name().equals(orderAsString))) {
+            throw new WrongParameterException(String.format("No such sorting order exists: '%s'", orderAsString));
         }
     }
 }

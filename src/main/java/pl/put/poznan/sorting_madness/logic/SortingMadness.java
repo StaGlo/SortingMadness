@@ -17,6 +17,7 @@ public class SortingMadness {
      * The sorting strategy (algorithm) to be used for sorting operations.
      */
     private SortingStrategy sortingStrategy;
+    private Comparator sortingOrder;
 
     /**
      * Default constructor that initializes the sorting strategy to SelectionSort.
@@ -34,29 +35,12 @@ public class SortingMadness {
         this.sortingStrategy = sortingStrategy;
     }
 
-    /**
-     * Performs sorting on a list of comparable values using the set sorting strategy.
-     *
-     * @param <T>              The type of elements in the list, extending Comparable.
-     * @param data             The list of values to be sorted.
-     * @param customComparator The comparator to be used for sorting.
-     * @return                 A SortingResponse object containing the sorted data and the time taken to sort.
-     */
-    public <T extends Comparable<T>> SortingResponse performSortValues(List<T> data, Comparator<T> customComparator) {
-        return sortingStrategy.sortValues(data, customComparator);
+    public <T extends Comparable<T>> SortingResponse performSortValues(List<T> data) {
+        return sortingStrategy.sortValues(data, this.sortingOrder);
     }
 
-    /**
-     * Performs sorting on a list of objects based on a specified field using the set sorting strategy.
-     *
-     * @param <T>              The type of elements in the list, extending Comparable.
-     * @param data             The list of objects to be sorted.
-     * @param customComparator The comparator to be used for sorting.
-     * @param field            The field of the objects to sort by.
-     * @return                 A SortingResponse object containing the sorted data and the time taken to sort.
-     */
-    public <T extends Comparable<T>> SortingResponse performSortObjects(List<Map<String, Object>> data, Comparator<T> customComparator, String field) {
-        return sortingStrategy.sortObjects(data, customComparator, field);
+    public <T extends Comparable<T>> SortingResponse performSortObjects(List<Map<String, Object>> data, String field) {
+        return sortingStrategy.sortObjects(data, this.sortingOrder, field);
     }
 
     /**
@@ -66,5 +50,13 @@ public class SortingMadness {
      */
     public void setStrategy(SortingStrategy sortingStrategy) {
         this.sortingStrategy = sortingStrategy;
+    }
+
+    public void setOrder(SortingOrder sortingOrder) {
+        if (sortingOrder == SortingOrder.ASCENDING) {
+            this.sortingOrder = Comparator.naturalOrder();
+        } else if (sortingOrder == SortingOrder.DESCENDING) {
+            this.sortingOrder = Comparator.reverseOrder();
+        }
     }
 }
