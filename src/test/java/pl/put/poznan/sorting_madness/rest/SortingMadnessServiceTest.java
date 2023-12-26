@@ -115,6 +115,20 @@ class SortingMadnessServiceTest {
 
     @SneakyThrows
     @Test
+    void testSortValuesSuccessDescending() {
+        //given
+        List<Object> body = List.of(3, 2, 1);
+        var response = new SortingResponse(body, AlgorithmName.BUBBLE_SORT, 1L);
+
+        //when
+        when(sortingMadness.performSortValues(any())).thenReturn(response);
+
+        //then
+        assertEquals(List.of(response), sortingMadnessService.sortValues("BUBBLE_SORT", "DESCENDING", body));
+    }
+
+    @SneakyThrows
+    @Test
     void testSortObjectsSuccess() {
         //given
         List<Map<String, Object>> body = List.of(
@@ -130,5 +144,57 @@ class SortingMadnessServiceTest {
 
         //then
         assertEquals(List.of(response), sortingMadnessService.sortObjects("BUBBLE_SORT", "ASCENDING", body, "a"));
+    }
+
+    @SneakyThrows
+    @Test
+    void testSortObjectsSuccessDescending() {
+        //given
+        List<Map<String, Object>> body = List.of(
+                Map.of("a", 3, "b", 2, "c", 1),
+                Map.of("a", 2, "b", 1, "c", 3),
+                Map.of("a", 1, "b", 3, "c", 2)
+        );
+        var listAsObjects = body.stream().map(o -> (Object) o).collect(Collectors.toList());
+        var response = new SortingResponse(listAsObjects, AlgorithmName.BUBBLE_SORT, 1L);
+
+        //when
+        when(sortingMadness.performSortObjects(any(), any())).thenReturn(response);
+
+        //then
+        assertEquals(List.of(response), sortingMadnessService.sortObjects("BUBBLE_SORT", "DESCENDING", body, "a"));
+    }
+
+    @SneakyThrows
+    @Test
+    void testSortValuesInvalidSortingOrder() {
+        //given
+        List<Object> valuesBody = List.of(3, 2, 1);
+        List<Map<String, Object>> objectsBody = List.of(
+                Map.of("a", 3, "b", 2, "c", 1),
+                Map.of("a", 2, "b", 1, "c", 3),
+                Map.of("a", 1, "b", 3, "c", 2)
+        );
+
+        //then
+        assertThrows(WrongParameterException.class, () -> sortingMadnessService.sortValues("BUBBLE_SORT", "INVALID_ORDER", valuesBody));
+        assertThrows(WrongParameterException.class, () -> sortingMadnessService.sortObjects("BUBBLE_SORT", "INVALID_ORDER", objectsBody, "a"));
+    }
+
+
+    @SneakyThrows
+    @Test
+    void testEmptyOrder() {
+        //given
+        List<Object> valuesBody = List.of(3, 2, 1);
+        List<Map<String, Object>> objectsBody = List.of(
+                Map.of("a", 3, "b", 2, "c", 1),
+                Map.of("a", 2, "b", 1, "c", 3),
+                Map.of("a", 1, "b", 3, "c", 2)
+        );
+
+        //then
+        assertThrows(WrongParameterException.class, () -> sortingMadnessService.sortValues("BUBBLE_SORT", "", valuesBody));
+        assertThrows(WrongParameterException.class, () -> sortingMadnessService.sortObjects("BUBBLE_SORT", "", objectsBody, "a"));
     }
 }
