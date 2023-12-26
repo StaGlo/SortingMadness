@@ -39,11 +39,12 @@ public class SortingMadnessController {
     @GetMapping("/values")
     public List<SortingResponse> sortValues(
             @RequestParam(defaultValue = "") String algorithm,
+            @RequestParam(defaultValue = "ASCENDING") String order,
             @RequestBody List<Object> data) throws WrongParameterException {
         log.debug(data.toString());
         log.debug(algorithm);
-
-        return sortingMadnessService.sortValues(algorithm, data);
+        log.debug("Sorting order: " + order);
+        return sortingMadnessService.sortValues(algorithm, order, data);
     }
 
     /**
@@ -62,11 +63,13 @@ public class SortingMadnessController {
     @GetMapping("/objects")
     public List<SortingResponse> sortObjects(
             @RequestParam(defaultValue = "BUBBLE_SORT") String algorithm,
+            @RequestParam(defaultValue = "ASCENDING") String order,
             @RequestParam String field,
             @RequestBody List<Map<String, Object>> data) throws WrongParameterException {
         log.debug(data.toString());
         log.debug(algorithm);
+        log.debug("Sorting order: " + order);
 
-        return sortingMadnessService.sortObjects(algorithm, data, field);
+        return sortingMadnessService.sortObjects(algorithm, order, data, field);
     }
 }

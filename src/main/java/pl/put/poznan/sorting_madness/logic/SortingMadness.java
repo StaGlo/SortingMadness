@@ -7,16 +7,21 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This component is responsible for executing sorting operations.
- * It utilizes the Strategy design pattern to allow different sorting algorithms to be used.
+ * Component responsible for executing sorting operations.
+ * Utilizes the Strategy design pattern to facilitate the use of different sorting algorithms.
  */
 @Component
 public class SortingMadness {
 
     /**
-     * The sorting strategy (algorithm) to be used for sorting operations.
+     * Sorting strategy (algorithm) used for sorting operations.
      */
     private SortingStrategy sortingStrategy;
+
+    /**
+     * Comparator used to determine the sorting order.
+     */
+    private SortingOrder sortingOrder;
 
     /**
      * Default constructor that initializes the sorting strategy to SelectionSort.
@@ -35,28 +40,27 @@ public class SortingMadness {
     }
 
     /**
-     * Performs sorting on a list of comparable values using the set sorting strategy.
+     * Sorts a list of comparable values using the specified sorting strategy.
      *
-     * @param <T>              The type of elements in the list, extending Comparable.
-     * @param data             The list of values to be sorted.
-     * @param customComparator The comparator to be used for sorting.
-     * @return                 A SortingResponse object containing the sorted data and the time taken to sort.
+     * @param <T>  Type of elements in the list, extending Comparable.
+     * @param data The list of values to be sorted.
+     * @return A SortingResponse object containing the sorted data.
      */
-    public <T extends Comparable<T>> SortingResponse performSortValues(List<T> data, Comparator<T> customComparator) {
-        return sortingStrategy.sortValues(data, customComparator);
+    public <T extends Comparable<T>> SortingResponse performSortValues(List<T> data) {
+        return sortingStrategy.sortValues(data, this.sortingOrder.getComparator());
     }
 
     /**
-     * Performs sorting on a list of objects based on a specified field using the set sorting strategy.
+     * Sorts a list of objects based on a specified field using the specified sorting strategy.
      *
-     * @param <T>              The type of elements in the list, extending Comparable.
-     * @param data             The list of objects to be sorted.
-     * @param customComparator The comparator to be used for sorting.
-     * @param field            The field of the objects to sort by.
-     * @return                 A SortingResponse object containing the sorted data and the time taken to sort.
+     * @param <T>   Type of elements in the list, extending Comparable.
+     * @param data  The list of objects to be sorted.
+     * @param field The field of the objects to sort by.
+     * @return A SortingResponse object containing the sorted data.
      */
-    public <T extends Comparable<T>> SortingResponse performSortObjects(List<Map<String, Object>> data, Comparator<T> customComparator, String field) {
-        return sortingStrategy.sortObjects(data, customComparator, field);
+    public <T extends Comparable<T>> SortingResponse performSortObjects(List<Map<String, Object>> data, String field) {
+        //noinspection unchecked
+        return sortingStrategy.sortObjects(data, (Comparator<T>) sortingOrder.getComparator(), field);
     }
 
     /**
@@ -67,4 +71,14 @@ public class SortingMadness {
     public void setStrategy(SortingStrategy sortingStrategy) {
         this.sortingStrategy = sortingStrategy;
     }
+
+    /**
+     * Sets the sorting order to be used for sorting operations.
+     *
+     * @param sortingOrder The sorting order to set.
+     */
+    public void setOrder(SortingOrder sortingOrder) {
+        this.sortingOrder = sortingOrder;
+    }
+
 }
