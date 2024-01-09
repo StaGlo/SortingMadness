@@ -24,7 +24,7 @@ public class CountingSort implements SortingStrategy {
      * @return A SortingResponse object containing the sorted list.
      */
     @Override
-    public <T extends Comparable<T>> SortingResponse sortValues(List<T> data, Comparator<T> customComparator) {
+    public <T extends Comparable<T>> SortingResponse sortValues(List<T> data, Comparator<T> customComparator, Integer steps) {
         int n = data.size();
         int m = 0;
         for (T datum : data) {
@@ -63,7 +63,7 @@ public class CountingSort implements SortingStrategy {
      * @return A SortingResponse object containing the sorted list.
      */
     public <T extends Comparable<T>> SortingResponse sortObjects(List<Map<String, Object>> data,
-                                                                 Comparator<T> customComparator, String field) {
+                                                                 Comparator<T> customComparator, String field, Integer steps) {
         int n = data.size();
         int m = 0;
         for (Map<String, Object> datum : data) {

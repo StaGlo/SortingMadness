@@ -39,15 +39,18 @@ public class SortingMadnessService {
      * @return A SortingResponse object containing the sorted data and the time taken to sort.
      * @throws WrongParameterException If the algorithm name is invalid, the data list is empty, items are not of the same type, or items are not comparable.
      */
-    public <T extends Comparable<T>> List<SortingResponse> sortValues(String algorithmAsString, String orderAsString, List<Object> data)
+    public <T extends Comparable<T>> List<SortingResponse> sortValues(String algorithmAsString, String orderAsString, List<Object> data, String stepsAsString)
             throws WrongParameterException {
 
         validateListEmpty(data);
         validateInputSameType(data);
         validateInputComparable(data);
         validateSortingOrder(orderAsString);
+        validateStepCount(stepsAsString);
 
         var algorithmList = algorithmAsString.split(",");
+
+        Integer steps = Integer.parseInt(stepsAsString);
 
         List<SortingResponse> finalResult = new ArrayList<>();
         for (String algorithmListElement : algorithmList) {
@@ -56,6 +59,7 @@ public class SortingMadnessService {
             if (algorithmName.equals(AlgorithmName.COUNTING_SORT)) {
                 validateCountingSortInput(data);
             }
+            validateStepPossible(steps, algorithmName);
 
             List<T> convertedData = data.stream().map(o -> (T) o).collect(Collectors.toList());
 
@@ -82,7 +86,7 @@ public class SortingMadnessService {
 
             sortingMadness.setOrder(SortingOrder.valueOf(orderAsString));
 
-            var sortingResult = sortingMadness.performSortValues(convertedData);
+            var sortingResult = sortingMadness.performSortValues(convertedData, steps);
 
             sortingResult.setAlgorithmName(algorithmName);
             finalResult.add(sortingResult);
@@ -103,12 +107,14 @@ public class SortingMadnessService {
      * @throws WrongParameterException If the algorithm name is invalid, the data list is empty, field is not present in all objects, items are not of the same type, or items are not comparable.
      */
     public <T extends Comparable<T>> List<SortingResponse> sortObjects(String algorithmAsString, String orderAsString,
-                                                                       List<Map<String, Object>> data, String field) throws WrongParameterException {
+                                                                       List<Map<String, Object>> data, String field, String stepsAsString) throws WrongParameterException {
 
         validateSortingOrder(orderAsString);
 
         validateListEmpty(data);
         checkFieldPresence(data, field);
+
+        validateStepCount(stepsAsString);
 
         var values = data.stream().map(m -> m.get(field)).collect(Collectors.toList());
         validateInputSameType(values);
@@ -117,12 +123,15 @@ public class SortingMadnessService {
         var algorithmList = algorithmAsString.split(",");
         List<SortingResponse> finalResult = new ArrayList<>();
 
+        Integer steps = Integer.parseInt(stepsAsString);
+
         for (String algorithmListElement : algorithmList) {
             validateAlgorithmName(algorithmListElement);
             var algorithmName = AlgorithmName.valueOf(algorithmListElement);
             if (algorithmName.equals(AlgorithmName.COUNTING_SORT)) {
                 validateCountingSortInput(values);
             }
+            validateStepPossible(steps, algorithmName);
 
             switch (algorithmName) {
                 case BUBBLE_SORT:
@@ -147,7 +156,7 @@ public class SortingMadnessService {
 
             sortingMadness.setOrder(SortingOrder.valueOf(orderAsString));
 
-            var sortingResult = sortingMadness.performSortObjects(data, field);
+            var sortingResult = sortingMadness.performSortObjects(data, field, steps);
             sortingResult.setAlgorithmName(algorithmName);
             finalResult.add(sortingResult);
         }
@@ -244,6 +253,24 @@ public class SortingMadnessService {
         }
         if (Arrays.stream(SortingOrder.values()).noneMatch(value -> value.name().equals(orderAsString))) {
             throw new WrongParameterException(String.format("No such sorting order exists: '%s'", orderAsString));
+        }
+    }
+
+    private void validateStepCount(String stepsAsString) throws WrongParameterException {
+        if ("".equals(stepsAsString)) {
+            throw new WrongParameterException("The amount of steps cannot be empty");
+        }
+        try {
+            Integer.parseInt(stepsAsString);
+        }
+        catch (NumberFormatException e) {
+            throw new WrongParameterException("The amount of steps must be an integer");
+        }
+    }
+
+    private void validateStepPossible(Integer steps, AlgorithmName algorithmName) throws WrongParameterException {
+        if (steps >= 0 && (!(algorithmName.equals(AlgorithmName.BUBBLE_SORT) || algorithmName.equals(AlgorithmName.INSERTION_SORT) || algorithmName.equals(AlgorithmName.SELECTION_SORT))) ) {
+            throw new WrongParameterException("Cannot use the step amount parameter for a non-iterative algorithm");
         }
     }
 }
