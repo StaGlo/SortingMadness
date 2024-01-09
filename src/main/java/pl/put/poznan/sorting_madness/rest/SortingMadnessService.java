@@ -126,6 +126,7 @@ public class SortingMadnessService {
         Integer steps = Integer.parseInt(stepsAsString);
 
         for (String algorithmListElement : algorithmList) {
+            List<Map<String, Object>> newData = new ArrayList<>(data);
             validateAlgorithmName(algorithmListElement);
             var algorithmName = AlgorithmName.valueOf(algorithmListElement);
             if (algorithmName.equals(AlgorithmName.COUNTING_SORT)) {
@@ -156,7 +157,7 @@ public class SortingMadnessService {
 
             sortingMadness.setOrder(SortingOrder.valueOf(orderAsString));
 
-            var sortingResult = sortingMadness.performSortObjects(data, field, steps);
+            var sortingResult = sortingMadness.performSortObjects(newData, field, steps);
             sortingResult.setAlgorithmName(algorithmName);
             finalResult.add(sortingResult);
         }
