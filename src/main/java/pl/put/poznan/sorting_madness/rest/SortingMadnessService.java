@@ -50,8 +50,6 @@ public class SortingMadnessService {
 
         var algorithmList = algorithmAsString.split(",");
 
-        Integer steps = Integer.parseInt(stepsAsString);
-
         List<SortingResponse> finalResult = new ArrayList<>();
         for (String algorithmListElement : algorithmList) {
             validateAlgorithmName(algorithmListElement);
@@ -59,7 +57,13 @@ public class SortingMadnessService {
             if (algorithmName.equals(AlgorithmName.COUNTING_SORT)) {
                 validateCountingSortInput(data);
             }
-            validateStepPossible(steps, algorithmName);
+            validateStepPossible(stepsAsString, algorithmName);
+            int steps;
+            if (stepsAsString != null) {
+                steps = Integer.parseInt(stepsAsString);
+            } else {
+                steps = -1;
+            }
 
             List<T> convertedData = data.stream().map(o -> (T) o).collect(Collectors.toList());
 
@@ -123,8 +127,6 @@ public class SortingMadnessService {
         var algorithmList = algorithmAsString.split(",");
         List<SortingResponse> finalResult = new ArrayList<>();
 
-        Integer steps = Integer.parseInt(stepsAsString);
-
         for (String algorithmListElement : algorithmList) {
             List<Map<String, Object>> newData = new ArrayList<>(data);
             validateAlgorithmName(algorithmListElement);
@@ -132,7 +134,13 @@ public class SortingMadnessService {
             if (algorithmName.equals(AlgorithmName.COUNTING_SORT)) {
                 validateCountingSortInput(values);
             }
-            validateStepPossible(steps, algorithmName);
+            validateStepPossible(stepsAsString, algorithmName);
+            int steps;
+            if (stepsAsString != null) {
+                steps = Integer.parseInt(stepsAsString);
+            } else {
+                steps = -1;
+            }
 
             switch (algorithmName) {
                 case BUBBLE_SORT:
@@ -261,17 +269,24 @@ public class SortingMadnessService {
         if ("".equals(stepsAsString)) {
             throw new WrongParameterException("The amount of steps cannot be empty");
         }
-        try {
-            Integer.parseInt(stepsAsString);
-        }
-        catch (NumberFormatException e) {
-            throw new WrongParameterException("The amount of steps must be an integer");
+        if (stepsAsString != null) {
+            try {
+                Integer.parseInt(stepsAsString);
+            } catch (NumberFormatException e) {
+                throw new WrongParameterException("The amount of steps must be a non-negative integer");
+            }
         }
     }
 
-    private void validateStepPossible(Integer steps, AlgorithmName algorithmName) throws WrongParameterException {
-        if (steps >= 0 && (!(algorithmName.equals(AlgorithmName.BUBBLE_SORT) || algorithmName.equals(AlgorithmName.INSERTION_SORT) || algorithmName.equals(AlgorithmName.SELECTION_SORT))) ) {
-            throw new WrongParameterException("Cannot use the step amount parameter for a non-iterative algorithm");
+    private void validateStepPossible(String stepsAsString, AlgorithmName algorithmName) throws WrongParameterException {
+        if (stepsAsString != null) {
+            if (Integer.parseInt(stepsAsString) < 0) {
+                throw new WrongParameterException("The step amount cannot be negative");
+            }
+            if (!(algorithmName.equals(AlgorithmName.BUBBLE_SORT) || algorithmName.equals(AlgorithmName.INSERTION_SORT)
+                    || algorithmName.equals(AlgorithmName.SELECTION_SORT))) {
+                throw new WrongParameterException("Cannot use the step amount parameter for a non-iterative algorithm");
+            }
         }
     }
 }
