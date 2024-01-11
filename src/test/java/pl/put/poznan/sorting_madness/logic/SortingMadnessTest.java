@@ -47,15 +47,15 @@ class SortingMadnessTest {
         var responseObjects = new SortingResponse(sortingDataObjectsRaw, AlgorithmName.BUBBLE_SORT, 0L);
 
         //when
-        when(sortingStrategy.sortValues(any(), any())).thenReturn(responseValues);
-        when(sortingStrategy.sortObjects(any(), any(), any())).thenReturn(responseObjects);
+        when(sortingStrategy.sortValues(any(), any(), any())).thenReturn(responseValues);
+        when(sortingStrategy.sortObjects(any(), any(), any(), any())).thenReturn(responseObjects);
 
         //then
-        var sortingResponseValues = sortingMadness.performSortValues(sortingDataValuesComparable);
-        var sortingResponseObjects = sortingMadness.performSortObjects(sortingDataObjectsMaps, "a");
+        var sortingResponseValues = sortingMadness.performSortValues(sortingDataValuesComparable, 10000);
+        var sortingResponseObjects = sortingMadness.performSortObjects(sortingDataObjectsMaps, "a", 10000);
         assertEquals(AlgorithmName.BUBBLE_SORT, sortingResponseValues.getAlgorithmName());
         assertEquals(AlgorithmName.BUBBLE_SORT, sortingResponseObjects.getAlgorithmName());
-        verify(sortingStrategy, times(1)).sortValues(any(), any());
+        verify(sortingStrategy, times(1)).sortValues(any(), any(), any());
     }
 
     @Test
@@ -66,15 +66,15 @@ class SortingMadnessTest {
         var responseObjects = new SortingResponse(sortingDataObjectsRaw, AlgorithmName.SELECTION_SORT, 0L);
 
         //when
-        when(sortingStrategy.sortValues(any(), any())).thenReturn(responseValues);
-        when(sortingStrategy.sortObjects(any(), any(), any())).thenReturn(responseObjects);
+        when(sortingStrategy.sortValues(any(), any(), any())).thenReturn(responseValues);
+        when(sortingStrategy.sortObjects(any(), any(), any(), any())).thenReturn(responseObjects);
 
         //then
-        var sortingResponseValues = sortingMadness.performSortValues(sortingDataValuesComparable);
-        var sortingResponseObjects = sortingMadness.performSortObjects(sortingDataObjectsMaps, "a");
+        var sortingResponseValues = sortingMadness.performSortValues(sortingDataValuesComparable, 10000);
+        var sortingResponseObjects = sortingMadness.performSortObjects(sortingDataObjectsMaps, "a", 10000);
         assertEquals(AlgorithmName.SELECTION_SORT, sortingResponseValues.getAlgorithmName());
         assertEquals(AlgorithmName.SELECTION_SORT, sortingResponseObjects.getAlgorithmName());
-        verify(sortingStrategy, times(1)).sortValues(any(), any());
+        verify(sortingStrategy, times(1)).sortValues(any(), any(), any());
     }
 
     @Test
@@ -85,15 +85,15 @@ class SortingMadnessTest {
         var responseObjects = new SortingResponse(sortingDataObjectsRaw, AlgorithmName.INSERTION_SORT, 0L);
 
         //when
-        when(sortingStrategy.sortValues(any(), any())).thenReturn(responseValues);
-        when(sortingStrategy.sortObjects(any(), any(), any())).thenReturn(responseObjects);
+        when(sortingStrategy.sortValues(any(), any(), any())).thenReturn(responseValues);
+        when(sortingStrategy.sortObjects(any(), any(), any(), any())).thenReturn(responseObjects);
 
         //then
-        var sortingResponseValues = sortingMadness.performSortValues(sortingDataValuesComparable);
-        var sortingResponseObjects = sortingMadness.performSortObjects(sortingDataObjectsMaps, "a");
+        var sortingResponseValues = sortingMadness.performSortValues(sortingDataValuesComparable, 10000);
+        var sortingResponseObjects = sortingMadness.performSortObjects(sortingDataObjectsMaps, "a", 10000);
         assertEquals(AlgorithmName.INSERTION_SORT, sortingResponseValues.getAlgorithmName());
         assertEquals(AlgorithmName.INSERTION_SORT, sortingResponseObjects.getAlgorithmName());
-        verify(sortingStrategy, times(1)).sortValues(any(), any());
+        verify(sortingStrategy, times(1)).sortValues(any(), any(), any());
     }
 
     @Test
@@ -104,15 +104,15 @@ class SortingMadnessTest {
         var responseObjects = new SortingResponse(sortingDataObjectsRaw, AlgorithmName.QUICK_SORT, 0L);
 
         //when
-        when(sortingStrategy.sortValues(any(), any())).thenReturn(responseValues);
-        when(sortingStrategy.sortObjects(any(), any(), any())).thenReturn(responseObjects);
+        when(sortingStrategy.sortValues(any(), any(), any())).thenReturn(responseValues);
+        when(sortingStrategy.sortObjects(any(), any(), any(), any())).thenReturn(responseObjects);
 
         //then
-        var sortingResponseValues = sortingMadness.performSortValues(sortingDataValuesComparable);
-        var sortingResponseObjects = sortingMadness.performSortObjects(sortingDataObjectsMaps, "a");
+        var sortingResponseValues = sortingMadness.performSortValues(sortingDataValuesComparable, 10000);
+        var sortingResponseObjects = sortingMadness.performSortObjects(sortingDataObjectsMaps, "a", 10000);
         assertEquals(AlgorithmName.QUICK_SORT, sortingResponseValues.getAlgorithmName());
         assertEquals(AlgorithmName.QUICK_SORT, sortingResponseObjects.getAlgorithmName());
-        verify(sortingStrategy, times(1)).sortValues(any(), any());
+        verify(sortingStrategy, times(1)).sortValues(any(), any(), any());
     }
 
     @Test
@@ -123,15 +123,15 @@ class SortingMadnessTest {
         var responseObjects = new SortingResponse(sortingDataObjectsRaw, AlgorithmName.MERGE_SORT, 0L);
 
         //when
-        when(sortingStrategy.sortValues(any(), any())).thenReturn(responseValues);
-        when(sortingStrategy.sortObjects(any(), any(), any())).thenReturn(responseObjects);
+        when(sortingStrategy.sortValues(any(), any(), any())).thenReturn(responseValues);
+        when(sortingStrategy.sortObjects(any(), any(), any(), any())).thenReturn(responseObjects);
 
         //then
-        var sortingResponseValues = sortingMadness.performSortValues(sortingDataValuesComparable);
-        var sortingResponseObjects = sortingMadness.performSortObjects(sortingDataObjectsMaps, "a");
+        var sortingResponseValues = sortingMadness.performSortValues(sortingDataValuesComparable, 10000);
+        var sortingResponseObjects = sortingMadness.performSortObjects(sortingDataObjectsMaps, "a", 10000);
         assertEquals(AlgorithmName.MERGE_SORT, sortingResponseValues.getAlgorithmName());
         assertEquals(AlgorithmName.MERGE_SORT, sortingResponseObjects.getAlgorithmName());
-        verify(sortingStrategy, times(1)).sortValues(any(), any());
+        verify(sortingStrategy, times(1)).sortValues(any(), any(), any());
     }
 
     @Test
@@ -142,14 +142,14 @@ class SortingMadnessTest {
         var responseObjects = new SortingResponse(sortingDataObjectsRaw, AlgorithmName.COUNTING_SORT, 0L);
 
         //when
-        when(sortingStrategy.sortValues(any(), any())).thenReturn(responseValues);
-        when(sortingStrategy.sortObjects(any(), any(), any())).thenReturn(responseObjects);
+        when(sortingStrategy.sortValues(any(), any(), any())).thenReturn(responseValues);
+        when(sortingStrategy.sortObjects(any(), any(), any(), any())).thenReturn(responseObjects);
 
         //then
-        var sortingResponseValues = sortingMadness.performSortValues(sortingDataValuesComparable);
-        var sortingResponseObjects = sortingMadness.performSortObjects(sortingDataObjectsMaps, "a");
+        var sortingResponseValues = sortingMadness.performSortValues(sortingDataValuesComparable, 10000);
+        var sortingResponseObjects = sortingMadness.performSortObjects(sortingDataObjectsMaps, "a", 10000);
         assertEquals(AlgorithmName.COUNTING_SORT, sortingResponseValues.getAlgorithmName());
         assertEquals(AlgorithmName.COUNTING_SORT, sortingResponseObjects.getAlgorithmName());
-        verify(sortingStrategy, times(1)).sortValues(any(), any());
+        verify(sortingStrategy, times(1)).sortValues(any(), any(), any());
     }
 }
