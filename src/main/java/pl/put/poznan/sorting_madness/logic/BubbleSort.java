@@ -21,9 +21,16 @@ public class BubbleSort implements SortingStrategy {
      * @return                 A SortingResponse object containing the sorted list.
      */
     @Override
-    public <T extends Comparable<T>> SortingResponse sortValues(List<T> data, Comparator<T> customComparator) {
+    public <T extends Comparable<T>> SortingResponse sortValues(List<T> data, Comparator<T> customComparator, Integer steps) {
         int n = data.size();
-        for (int i = 0; i < n - 1; i++) {
+        int stepN;
+        if (steps < 0) {
+            stepN = data.size();
+        } else {
+            stepN = Math.min(data.size(),steps + 1);
+        }
+
+        for (int i = 0; i < stepN - 1; i++) {
             for (int j = 0; j < n - i - 1; j++) {
                 if (customComparator != null) {
                     if (customComparator.compare(data.get(j), data.get(j + 1)) > 0) {
@@ -48,9 +55,16 @@ public class BubbleSort implements SortingStrategy {
      * @return                 A SortingResponse object containing the sorted list.
      */
     @Override
-    public <T extends Comparable<T>> SortingResponse sortObjects(List<Map<String, Object>> data, Comparator<T> customComparator, String field) {
+    public <T extends Comparable<T>> SortingResponse sortObjects(List<Map<String, Object>> data, Comparator<T> customComparator, String field, Integer steps) {
         int n = data.size();
-        for (int i = 0; i < n - 1; i++) {
+        int stepN;
+        if (steps < 0) {
+            stepN = data.size();
+        } else {
+            stepN = Math.min(data.size(),steps + 1);
+        }
+
+        for (int i = 0; i < stepN - 1; i++) {
             for (int j = 0; j < n - i - 1; j++) {
                 var value1 = (T) data.get(j).get(field);
                 var value2 = (T) data.get(j + 1).get(field);

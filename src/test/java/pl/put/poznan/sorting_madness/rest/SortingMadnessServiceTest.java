@@ -36,8 +36,8 @@ class SortingMadnessServiceTest {
         List<Map<String, Object>> objectsBody = Collections.emptyList();
 
         //then
-        assertThrows(WrongParameterException.class, () -> sortingMadnessService.sortValues("BUBBLE_SORT", "ASCENDING", valuesBody));
-        assertThrows(WrongParameterException.class, () -> sortingMadnessService.sortObjects("BUBBLE_SORT", "ASCENDING", objectsBody, "a"));
+        assertThrows(WrongParameterException.class, () -> sortingMadnessService.sortValues("BUBBLE_SORT", "ASCENDING", valuesBody, null));
+        assertThrows(WrongParameterException.class, () -> sortingMadnessService.sortObjects("BUBBLE_SORT", "ASCENDING", objectsBody, "a", null));
     }
 
     @Test
@@ -51,8 +51,8 @@ class SortingMadnessServiceTest {
         );
 
         //then
-        assertThrows(WrongParameterException.class, () -> sortingMadnessService.sortValues("BUBBLE_SORT", "ASCENDING", valuesBody));
-        assertThrows(WrongParameterException.class, () -> sortingMadnessService.sortObjects("BUBBLE_SORT", "ASCENDING", objectsBody, "a"));
+        assertThrows(WrongParameterException.class, () -> sortingMadnessService.sortValues("BUBBLE_SORT", "ASCENDING", valuesBody, null));
+        assertThrows(WrongParameterException.class, () -> sortingMadnessService.sortObjects("BUBBLE_SORT", "ASCENDING", objectsBody, "a", null));
     }
 
     @Test
@@ -65,8 +65,8 @@ class SortingMadnessServiceTest {
         );
 
         //then
-        assertThrows(WrongParameterException.class, () -> sortingMadnessService.sortValues("BUBBLE_SORT", "ASCENDING", valuesBody));
-        assertThrows(WrongParameterException.class, () -> sortingMadnessService.sortObjects("BUBBLE_SORT", "ASCENDING", objectsBody, "a"));
+        assertThrows(WrongParameterException.class, () -> sortingMadnessService.sortValues("BUBBLE_SORT", "ASCENDING", valuesBody, null));
+        assertThrows(WrongParameterException.class, () -> sortingMadnessService.sortObjects("BUBBLE_SORT", "ASCENDING", objectsBody, "a", null));
     }
 
     @Test
@@ -80,8 +80,8 @@ class SortingMadnessServiceTest {
         );
 
         //then
-        assertThrows(WrongParameterException.class, () -> sortingMadnessService.sortValues("INVALID_ALGORITHM", "ASCENDING", valuesBody));
-        assertThrows(WrongParameterException.class, () -> sortingMadnessService.sortObjects("INVALID_ALGORITHM", "ASCENDING", objectsBody, "a"));
+        assertThrows(WrongParameterException.class, () -> sortingMadnessService.sortValues("INVALID_ALGORITHM", "ASCENDING", valuesBody, null));
+        assertThrows(WrongParameterException.class, () -> sortingMadnessService.sortObjects("INVALID_ALGORITHM", "ASCENDING", objectsBody, "a", null));
     }
 
     @Test
@@ -95,8 +95,8 @@ class SortingMadnessServiceTest {
         );
 
         //then
-        assertThrows(WrongParameterException.class, () -> sortingMadnessService.sortValues("COUNTING_SORT", "ASCENDING", valuesBody));
-        assertThrows(WrongParameterException.class, () -> sortingMadnessService.sortObjects("COUNTING_SORT", "ASCENDING", objectsBody, "a"));
+        assertThrows(WrongParameterException.class, () -> sortingMadnessService.sortValues("COUNTING_SORT", "ASCENDING", valuesBody, null));
+        assertThrows(WrongParameterException.class, () -> sortingMadnessService.sortObjects("COUNTING_SORT", "ASCENDING", objectsBody, "a", null));
     }
 
     @SneakyThrows
@@ -107,10 +107,10 @@ class SortingMadnessServiceTest {
         var response = new SortingResponse(body, AlgorithmName.BUBBLE_SORT, 1L);
 
         //when
-        when(sortingMadness.performSortValues(any())).thenReturn(response);
+        when(sortingMadness.performSortValues(any(), any())).thenReturn(response);
 
         //then
-        assertEquals(List.of(response), sortingMadnessService.sortValues("BUBBLE_SORT", "ASCENDING", body));
+        assertEquals(List.of(response), sortingMadnessService.sortValues("BUBBLE_SORT", "ASCENDING", body, null));
     }
 
     @SneakyThrows
@@ -121,10 +121,10 @@ class SortingMadnessServiceTest {
         var response = new SortingResponse(body, AlgorithmName.BUBBLE_SORT, 1L);
 
         //when
-        when(sortingMadness.performSortValues(any())).thenReturn(response);
+        when(sortingMadness.performSortValues(any(), any())).thenReturn(response);
 
         //then
-        assertEquals(List.of(response), sortingMadnessService.sortValues("BUBBLE_SORT", "DESCENDING", body));
+        assertEquals(List.of(response), sortingMadnessService.sortValues("BUBBLE_SORT", "DESCENDING", body, null));
     }
 
     @SneakyThrows
@@ -140,10 +140,10 @@ class SortingMadnessServiceTest {
         var response = new SortingResponse(listAsObjects, AlgorithmName.BUBBLE_SORT, 1L);
 
         //when
-        when(sortingMadness.performSortObjects(any(), any())).thenReturn(response);
+        when(sortingMadness.performSortObjects(any(), any(), any())).thenReturn(response);
 
         //then
-        assertEquals(List.of(response), sortingMadnessService.sortObjects("BUBBLE_SORT", "ASCENDING", body, "a"));
+        assertEquals(List.of(response), sortingMadnessService.sortObjects("BUBBLE_SORT", "ASCENDING", body, "a", null));
     }
 
     @SneakyThrows
@@ -159,10 +159,10 @@ class SortingMadnessServiceTest {
         var response = new SortingResponse(listAsObjects, AlgorithmName.BUBBLE_SORT, 1L);
 
         //when
-        when(sortingMadness.performSortObjects(any(), any())).thenReturn(response);
+        when(sortingMadness.performSortObjects(any(), any(), any())).thenReturn(response);
 
         //then
-        assertEquals(List.of(response), sortingMadnessService.sortObjects("BUBBLE_SORT", "DESCENDING", body, "a"));
+        assertEquals(List.of(response), sortingMadnessService.sortObjects("BUBBLE_SORT", "DESCENDING", body, "a", null));
     }
 
     @SneakyThrows
@@ -177,8 +177,8 @@ class SortingMadnessServiceTest {
         );
 
         //then
-        assertThrows(WrongParameterException.class, () -> sortingMadnessService.sortValues("BUBBLE_SORT", "INVALID_ORDER", valuesBody));
-        assertThrows(WrongParameterException.class, () -> sortingMadnessService.sortObjects("BUBBLE_SORT", "INVALID_ORDER", objectsBody, "a"));
+        assertThrows(WrongParameterException.class, () -> sortingMadnessService.sortValues("BUBBLE_SORT", "INVALID_ORDER", valuesBody, null));
+        assertThrows(WrongParameterException.class, () -> sortingMadnessService.sortObjects("BUBBLE_SORT", "INVALID_ORDER", objectsBody, "a", null));
     }
 
 
@@ -194,7 +194,7 @@ class SortingMadnessServiceTest {
         );
 
         //then
-        assertThrows(WrongParameterException.class, () -> sortingMadnessService.sortValues("BUBBLE_SORT", "", valuesBody));
-        assertThrows(WrongParameterException.class, () -> sortingMadnessService.sortObjects("BUBBLE_SORT", "", objectsBody, "a"));
+        assertThrows(WrongParameterException.class, () -> sortingMadnessService.sortValues("BUBBLE_SORT", "", valuesBody, null));
+        assertThrows(WrongParameterException.class, () -> sortingMadnessService.sortObjects("BUBBLE_SORT", "", objectsBody, "a", null));
     }
 }

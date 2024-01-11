@@ -20,7 +20,7 @@ public abstract class SortingDecorator implements SortingStrategy {
      * @param customComparator The comparator to be used for sorting if not null.
      * @return A SortingResponse object containing the sorted list.
      */
-    public abstract <T extends Comparable<T>> SortingResponse sortValues(List<T> data, Comparator<T> customComparator);
+    public abstract <T extends Comparable<T>> SortingResponse sortValues(List<T> data, Comparator<T> customComparator, Integer steps);
 
     /**
      * Sorts a list of objects based on a specified field using the sorting
@@ -34,6 +34,6 @@ public abstract class SortingDecorator implements SortingStrategy {
      * @param field            The field of the objects to sort by.
      * @return A SortingResponse object containing the sorted list.
      */
-    public abstract <T extends  Comparable<T>> SortingResponse sortObjects(List<Map<String, Object>> data, Comparator<T> customComparator, String field);
+    public abstract <T extends  Comparable<T>> SortingResponse sortObjects(List<Map<String, Object>> data, Comparator<T> customComparator, String field, Integer steps);
 
 }

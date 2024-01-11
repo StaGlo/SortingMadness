@@ -23,10 +23,16 @@ public class SelectionSort implements SortingStrategy {
      * @return A SortingResponse object containing the sorted list.
      */
     @Override
-    public <T extends Comparable<T>> SortingResponse sortValues(List<T> data, Comparator<T> customComparator) {
+    public <T extends Comparable<T>> SortingResponse sortValues(List<T> data, Comparator<T> customComparator, Integer steps) {
         int n = data.size();
+        int stepN;
+        if (steps < 0) {
+            stepN = data.size();
+        } else {
+            stepN = Math.min(data.size(),steps + 1);
+        }
 
-        for (int i = 0; i < n - 1; i++) {
+        for (int i = 0; i < stepN - 1; i++) {
             int minIndex = i;
             for (int j = i + 1; j < n; j++) {
                 if (customComparator.compare(data.get(j), data.get(minIndex)) < 0) {
@@ -53,10 +59,16 @@ public class SelectionSort implements SortingStrategy {
      * @return A SortingResponse object containing the sorted list.
      */
     @Override
-    public <T extends Comparable<T>> SortingResponse sortObjects(List<Map<String, Object>> data, Comparator<T> customComparator, String field) {
+    public <T extends Comparable<T>> SortingResponse sortObjects(List<Map<String, Object>> data, Comparator<T> customComparator, String field, Integer steps) {
         int n = data.size();
+        int stepN;
+        if (steps < 0) {
+            stepN = data.size();
+        } else {
+            stepN = Math.min(data.size(),steps + 1);
+        }
 
-        for (int i = 0; i < n - 1; i++) {
+        for (int i = 0; i < stepN - 1; i++) {
             int minIndex = i;
             for (int j = i + 1; j < n; j++) {
                 var value1 = (T) data.get(j).get(field);

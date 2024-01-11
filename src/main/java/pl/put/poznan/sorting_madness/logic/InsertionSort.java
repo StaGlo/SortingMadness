@@ -23,9 +23,15 @@ public class InsertionSort implements SortingStrategy {
      * @return A SortingResponse object containing the sorted list.
      */
     @Override
-    public <T extends Comparable<T>> SortingResponse sortValues(List<T> data, Comparator<T> customComparator) {
-        int n = data.size();
-        for (int i = 1; i < n; i++) {
+    public <T extends Comparable<T>> SortingResponse sortValues(List<T> data, Comparator<T> customComparator, Integer steps) {
+        int stepN;
+        if (steps < 0) {
+            stepN = data.size();
+        } else {
+            stepN = Math.min(data.size(),steps + 1);
+        }
+
+        for (int i = 1; i < stepN; i++) {
             if (customComparator != null) {
                 var temp = data.get(i);
                 int j = i - 1;
@@ -52,9 +58,14 @@ public class InsertionSort implements SortingStrategy {
      * @return A SortingResponse object containing the sorted list.
      */
     @Override
-    public <T extends Comparable<T>> SortingResponse sortObjects(List<Map<String, Object>> data, Comparator<T> customComparator, String field) {
-        int n = data.size();
-        for (int i = 1; i < n; i++) {
+    public <T extends Comparable<T>> SortingResponse sortObjects(List<Map<String, Object>> data, Comparator<T> customComparator, String field, Integer steps) {
+        int stepN;
+        if (steps < 0) {
+            stepN = data.size();
+        } else {
+            stepN = Math.min(data.size(),steps);
+        }
+        for (int i = 1; i < stepN; i++) {
             if (customComparator != null) {
                 var temp = data.get(i);
                 int j = i - 1;

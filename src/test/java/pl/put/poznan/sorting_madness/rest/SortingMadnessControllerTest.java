@@ -41,7 +41,7 @@ class SortingMadnessControllerTest {
         var response = new SortingResponse(body, AlgorithmName.BUBBLE_SORT, 1L);
 
         //when
-        when(sortingMadnessService.sortValues(any(String.class), any(), any(List.class))).thenReturn(List.of(response));
+        when(sortingMadnessService.sortValues(any(String.class), any(), any(List.class), any())).thenReturn(List.of(response));
 
         //then
         mockMvc.perform(MockMvcRequestBuilders
@@ -67,7 +67,7 @@ class SortingMadnessControllerTest {
         var response = new SortingResponse(listAsObjects, AlgorithmName.BUBBLE_SORT, 1L);
 
         //when
-        when(sortingMadnessService.sortObjects(any(String.class), any(), any(List.class), any(String.class))).thenReturn(List.of(response));
+        when(sortingMadnessService.sortObjects(any(String.class), any(), any(List.class), any(String.class), any())).thenReturn(List.of(response));
 
         //then
         mockMvc.perform(MockMvcRequestBuilders

@@ -42,7 +42,8 @@ public class BubbleSortTest {
     @Test
     void testSortValues_NaturalOrder() {
         List<Integer> data = Arrays.asList(3, 1, 4, 1, 5, 9);
-        SortingResponse response = sorter.sortValues(data, Comparator.naturalOrder());
+        Integer steps = -1;
+        SortingResponse response = sorter.sortValues(data, Comparator.naturalOrder(), steps);
 
         assertArrayEquals(new Integer[]{1, 1, 3, 4, 5, 9}, response.getSortedList().toArray());
     }
@@ -53,7 +54,8 @@ public class BubbleSortTest {
     @Test
     void testSortValues_ReverseOrder() {
         List<Integer> data = Arrays.asList(45, -234, 1, 1, 0, 5, 9);
-        SortingResponse response = sorter.sortValues(data, Comparator.reverseOrder());
+        Integer steps = -1;
+        SortingResponse response = sorter.sortValues(data, Comparator.reverseOrder(), steps);
 
         assertArrayEquals(new Integer[]{45, 9, 5, 1, 1, 0, -234}, response.getSortedList().toArray());
     }
@@ -64,7 +66,8 @@ public class BubbleSortTest {
     @Test
     void testSortValues_SingleElement() {
         List<Integer> data = List.of(3);
-        SortingResponse response = sorter.sortValues(data, Comparator.naturalOrder());
+        Integer steps = -1;
+        SortingResponse response = sorter.sortValues(data, Comparator.naturalOrder(), steps);
 
         assertArrayEquals(new Integer[]{3}, response.getSortedList().toArray());
     }
@@ -75,7 +78,8 @@ public class BubbleSortTest {
     @Test
     void testSortValues_EmptyList() {
         List<Integer> data = List.of();
-        SortingResponse response = sorter.sortValues(data, Comparator.naturalOrder());
+        Integer steps = -1;
+        SortingResponse response = sorter.sortValues(data, Comparator.naturalOrder(), steps);
 
         assertArrayEquals(new Integer[]{}, response.getSortedList().toArray());
     }
@@ -86,7 +90,8 @@ public class BubbleSortTest {
     @Test
     void testSortValues_FloatingPointNumbers() {
         List<Double> data = Arrays.asList(3.14, 1.0, 4.0, 1.0, 5.0, 9.0);
-        SortingResponse response = sorter.sortValues(data, Comparator.naturalOrder());
+        Integer steps = -1;
+        SortingResponse response = sorter.sortValues(data, Comparator.naturalOrder(), steps);
 
         assertArrayEquals(new Double[]{1.0, 1.0, 3.14, 4.0, 5.0, 9.0}, response.getSortedList().toArray());
     }
@@ -105,7 +110,8 @@ public class BubbleSortTest {
         data.add(data3);
 
         Comparator<Integer> comparator = Comparator.naturalOrder();
-        SortingResponse response = sorter.sortObjects(data, comparator, "age");
+        Integer steps = -1;
+        SortingResponse response = sorter.sortObjects(data, comparator, "age", steps);
 
         assertEquals(3, response.getSortedList().size());
         assertEquals(data2, response.getSortedList().get(0));
@@ -127,7 +133,8 @@ public class BubbleSortTest {
         data.add(data3);
 
         Comparator<String> comparator = Comparator.naturalOrder();
-        SortingResponse response = sorter.sortObjects(data, comparator, "name");
+        Integer steps = -1;
+        SortingResponse response = sorter.sortObjects(data, comparator, "name", steps);
 
         assertEquals(3, response.getSortedList().size());
         assertEquals(data2, response.getSortedList().get(0));
@@ -149,7 +156,8 @@ public class BubbleSortTest {
         data.add(data3);
 
         Comparator<Integer> comparator = Comparator.reverseOrder();
-        SortingResponse response = sorter.sortObjects(data, comparator, "age");
+        Integer steps = -1;
+        SortingResponse response = sorter.sortObjects(data, comparator, "age", steps);
 
         assertEquals(3, response.getSortedList().size());
         assertEquals(data3, response.getSortedList().get(0));
@@ -167,7 +175,8 @@ public class BubbleSortTest {
         data.add(data1);
 
         Comparator<Integer> comparator = Comparator.naturalOrder();
-        SortingResponse response = sorter.sortObjects(data, comparator, "age");
+        Integer steps = -1;
+        SortingResponse response = sorter.sortObjects(data, comparator, "age", steps);
 
         assertEquals(1, response.getSortedList().size());
         assertEquals(data1, response.getSortedList().get(0));
@@ -181,7 +190,8 @@ public class BubbleSortTest {
         List<Map<String, Object>> data = new ArrayList<>();
 
         Comparator<Integer> comparator = Comparator.naturalOrder();
-        SortingResponse response = sorter.sortObjects(data, comparator, "age");
+        Integer steps = -1;
+        SortingResponse response = sorter.sortObjects(data, comparator, "age", steps);
 
         assertEquals(0, response.getSortedList().size());
     }

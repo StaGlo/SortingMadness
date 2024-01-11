@@ -37,9 +37,9 @@ public class SortingTimeDecorator extends SortingDecorator {
      * @return A SortingResponse object containing the sorted data and the time taken to sort.
      */
     @Override
-    public <T extends Comparable<T>> SortingResponse sortValues(List<T> data, Comparator<T> customComparator) {
+    public <T extends Comparable<T>> SortingResponse sortValues(List<T> data, Comparator<T> customComparator, Integer steps) {
         long startTime = System.nanoTime();
-        var sortingResult = originalStrategy.sortValues(data, customComparator);
+        var sortingResult = originalStrategy.sortValues(data, customComparator, steps);
         long endTime = System.nanoTime();
         long duration = endTime - startTime;
 
@@ -58,9 +58,9 @@ public class SortingTimeDecorator extends SortingDecorator {
      * @return A SortingResponse object containing the sorted data and the time taken to sort.
      */
     @Override
-    public <T extends Comparable<T>> SortingResponse sortObjects(List<Map<String, Object>> data, Comparator<T> customComparator, String field) {
+    public <T extends Comparable<T>> SortingResponse sortObjects(List<Map<String, Object>> data, Comparator<T> customComparator, String field, Integer steps) {
         long startTime = System.nanoTime();
-        var sortingResult = originalStrategy.sortObjects(data, customComparator, field);
+        var sortingResult = originalStrategy.sortObjects(data, customComparator, field, steps);
         long endTime = System.nanoTime();
         long duration = endTime - startTime;
 

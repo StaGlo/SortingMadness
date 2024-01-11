@@ -46,8 +46,8 @@ public class SortingMadness {
      * @param data The list of values to be sorted.
      * @return A SortingResponse object containing the sorted data.
      */
-    public <T extends Comparable<T>> SortingResponse performSortValues(List<T> data) {
-        return sortingStrategy.sortValues(data, this.sortingOrder.getComparator());
+    public <T extends Comparable<T>> SortingResponse performSortValues(List<T> data, Integer steps) {
+        return sortingStrategy.sortValues(data, this.sortingOrder.getComparator(), steps);
     }
 
     /**
@@ -58,9 +58,9 @@ public class SortingMadness {
      * @param field The field of the objects to sort by.
      * @return A SortingResponse object containing the sorted data.
      */
-    public <T extends Comparable<T>> SortingResponse performSortObjects(List<Map<String, Object>> data, String field) {
+    public <T extends Comparable<T>> SortingResponse performSortObjects(List<Map<String, Object>> data, String field, Integer steps) {
         //noinspection unchecked
-        return sortingStrategy.sortObjects(data, (Comparator<T>) sortingOrder.getComparator(), field);
+        return sortingStrategy.sortObjects(data, (Comparator<T>) sortingOrder.getComparator(), field, steps);
     }
 
     /**

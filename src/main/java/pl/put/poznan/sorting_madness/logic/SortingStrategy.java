@@ -18,7 +18,7 @@ public interface SortingStrategy {
      * @param customComparator the comparator to determine the order of the list.
      * @return {@link SortingResponse} containing the sorted list
      */
-    <T extends Comparable<T>> SortingResponse sortValues(List<T> data, Comparator<T> customComparator);
+    <T extends Comparable<T>> SortingResponse sortValues(List<T> data, Comparator<T> customComparator, Integer steps);
 
     /**
      * Sorts a list of maps based on a specified field. The field's values are compared using
@@ -29,5 +29,5 @@ public interface SortingStrategy {
      * @param customComparator the comparator to determine the order of sorting.
      * @return {@link SortingResponse} containing the sorted list of maps
      */
-    <T extends Comparable<T>> SortingResponse sortObjects(List<Map<String, Object>> data, Comparator<T> customComparator, String field);
+    <T extends Comparable<T>> SortingResponse sortObjects(List<Map<String, Object>> data, Comparator<T> customComparator, String field, Integer steps);
 }
