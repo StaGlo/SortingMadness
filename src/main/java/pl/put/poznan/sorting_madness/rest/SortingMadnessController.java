@@ -4,10 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import pl.put.poznan.sorting_madness.exception.WrongParameterException;
-import pl.put.poznan.sorting_madness.logic.SortingResponse;
+import pl.put.poznan.sorting_madness.logic.*;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Controller for handling requests related to sorting operations.
@@ -74,4 +76,32 @@ public class SortingMadnessController {
 
         return sortingMadnessService.sortObjects(algorithm, order, data, field, steps);
     }
+
+    /**
+     * Endpoint for retrieving help information about the sorting API.
+     *
+     * @param endpoint The specific endpoint for which help information is requested (optional).
+     * @return A HelpResponse object containing information about the available
+     * endpoints and parameters.
+     */
+    @GetMapping("/help")
+    public HelpResponse getHelp(
+            @RequestParam(defaultValue = "") String endpoint) {
+        HelpResponse helpResponse = new HelpResponse();
+        log.debug(endpoint);
+        switch (endpoint) {
+            case "/values":
+                log.debug("inn");
+                helpResponse.setValues();
+                break;
+            case "/objects":
+                helpResponse.setObjects();
+                break;
+            case "":
+                helpResponse.setEndpoints();
+                break;
+        }
+        return helpResponse;
+    }
+
 }
