@@ -88,10 +88,8 @@ public class SortingMadnessController {
     public HelpResponse getHelp(
             @RequestParam(defaultValue = "") String endpoint) {
         HelpResponse helpResponse = new HelpResponse();
-        log.debug(endpoint);
         switch (endpoint) {
             case "/values":
-                log.debug("inn");
                 helpResponse.setValues();
                 break;
             case "/objects":
